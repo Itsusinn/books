@@ -1,0 +1,6 @@
+[book]
+authors = ["Itsusinn"]
+language = "en"
+multilingual = false
+src = "src"
+title = "itsusinn-books"
