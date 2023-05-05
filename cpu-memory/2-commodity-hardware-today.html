@@ -4,37 +4,24 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>商业硬件现状 - itsusinn-books</title>
-        
-        
 
 
         <!-- Custom HTML head -->
         
-
-
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="../favicon.svg">
-        
-        
         <link rel="shortcut icon" href="../favicon.png">
-        
         <link rel="stylesheet" href="../css/variables.css">
         <link rel="stylesheet" href="../css/general.css">
         <link rel="stylesheet" href="../css/chrome.css">
-        
         <link rel="stylesheet" href="../css/print.css" media="print">
-        
 
         <!-- Fonts -->
         <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="../fonts/fonts.css">
-        
 
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="../highlight.css">
@@ -42,19 +29,18 @@
         <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
 
-        
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -70,7 +56,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -82,12 +68,14 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -103,8 +91,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
                         <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -114,35 +101,30 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">itsusinn-books</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
+
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -150,10 +132,9 @@
                         </ul>
                     </div>
                 </div>
-                
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -320,13 +301,14 @@ T T1 命令速率 </p>
 </blockquote>
 <p>为了更进一步，DDR2有了更多的创新。在图2.12中，最明显的变化是，总线的频率加倍了。频率的加倍意味着带宽的加倍。如果对单元阵列的频率加倍，显然是不经济的，因此DDR2要求I/O缓冲区在每个时钟周期读取4位。也就是说，DDR2的变化仅在于使I/O缓冲区运行在更高的速度上。这是可行的，而且耗电也不会显著增加。DDR2的命名与DDR1相仿，只是将因子2替换成4(四泵总线)。图2.13显示了目前常用的一些模块的名称。 </p>
 <blockquote>
-<table><thead><tr><th>阵列频率</th><th>总线频率</th><th>数据率</th><th>名称(速率)</th><th>名称  (FSB)</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>阵列频率</th><th>总线频率</th><th>数据率</th><th>名称(速率)</th><th>名称  (FSB)</th></tr></thead><tbody>
 <tr><td>133MHz</td><td>266MHz</td><td>4,256MB/s</td><td>PC2-4200</td><td>DDR2-533</td></tr>
 <tr><td>166MHz</td><td>333MHz</td><td>5,312MB/s</td><td>PC2-5300</td><td>DDR2-667</td></tr>
 <tr><td>200MHz</td><td>400MHz</td><td>6,400MB/s</td><td>PC2-6400</td><td>DDR2-800</td></tr>
 <tr><td>250MHz</td><td>500MHz</td><td>8,000MB/s</td><td>PC2-8000</td><td>DDR2-1000</td></tr>
 <tr><td>266MHz</td><td>533MHz</td><td>8,512MB/s</td><td>PC2-8500</td><td>DDR2-1066</td></tr>
 </tbody></table>
+</div>
 <p>图2.13: DDR2模块名</p>
 </blockquote>
 <p>在命名方面还有一个拧巴的地方。FSB速度是用有效频率来标记的，即把上升、下降沿均传输数据的因素考虑进去，因此数字被撑大了。所以，拥有266MHz总线的133MHz模块有着533MHz的FSB“频率”。 </p>
@@ -340,13 +322,14 @@ T T1 命令速率 </p>
 <p>DDR3可能会有一个问题，即在1600Mb/s或更高速率下，每个通道的模块数可能会限制为1。在早期版本中，这一要求是针对所有频率的。我们希望这个要求可以提高一些，否则系统容量将会受到严重的限制。 </p>
 <p>图2.15显示了我们预计中各DDR3模块的名称。JEDEC目前同意了前四种。由于Intel的45nm处理器是1600Mb/s的FSB，1866Mb/s可以用于超频市场。随着DDR3的发展，可能会有更多类型加入。 </p>
 <blockquote>
-<table><thead><tr><th>阵列频率</th><th>总线频率</th><th>数据速率</th><th>名称(速率)</th><th>名称  (FSB)</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>阵列频率</th><th>总线频率</th><th>数据速率</th><th>名称(速率)</th><th>名称  (FSB)</th></tr></thead><tbody>
 <tr><td>100MHz</td><td>400MHz</td><td>6,400MB/s</td><td>PC3-6400</td><td>DDR3-800</td></tr>
 <tr><td>133MHz</td><td>533MHz</td><td>8,512MB/s</td><td>PC3-8500</td><td>DDR3-1066</td></tr>
 <tr><td>166MHz</td><td>667MHz</td><td>10,667MB/s</td><td>PC3-10667</td><td>DDR3-1333</td></tr>
 <tr><td>200MHz</td><td>800MHz</td><td>12,800MB/s</td><td>PC3-12800</td><td>DDR3-1600</td></tr>
 <tr><td>233MHz</td><td>933MHz</td><td>14,933MB/s</td><td>PC3-14900</td><td>DDR3-1866</td></tr>
 </tbody></table>
+</div>
 <p>图2.15: DDR3模块名</p>
 </blockquote>
 <p>所有的DDR内存都有一个问题：不断增加的频率使得建立并行数据总线变得十分困难。一个DDR2模块有240根引脚。所有到地址和数据引脚的连线必须被布置得差不多一样长。更大的问题是，如果多于一个DDR模块通过菊花链连接在同一个总线上，每个模块所接收到的信号随着模块的增加会变得越来越扭曲。DDR2规范允许每条总线（又称通道）连接最多两个模块，DDR3在高频率下只允许每个通道连接一个模块。每条总线多达240根引脚使得单个北桥无法以合理的方式驱动两个通道。替代方案是增加外部内存控制器（如图2.2），但这会提高成本。 </p>
@@ -366,14 +349,14 @@ T T1 命令速率 </p>
 <p>DDR2 FB-DRAM </p>
 </blockquote>
 <blockquote>
-<table><thead><tr><th></th><th>DDR2</th><th>FB-DRAM</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th></th><th>DDR2</th><th>FB-DRAM</th></tr></thead><tbody>
 <tr><td>脚</td><td>240</td><td>69</td></tr>
 <tr><td>通道</td><td>2</td><td>6</td></tr>
 <tr><td>每通道DIMM数</td><td>2</td><td>8</td></tr>
 <tr><td>最大内存</td><td>16GB</td><td>192GB</td></tr>
 <tr><td>吞吐量</td><td>~10GB/s</td><td>~40GB/s</td></tr>
 </tbody></table>
-</blockquote>
+</div></blockquote>
 <p>如果在单个通道上使用多个DIMM，会有一些问题。信号在每个DIMM上都会有延迟(尽管很小)，也就是说，延迟是递增的。不过，如果在相同频率和相同容量上进行比较，FB-DRAM总是能快过DDR2及DDR3，因为FB-DRAM只需要在每个通道上使用一个DIMM即可。而如果说到大型内存系统，那么DDR更是没有商用组件的解决方案。</p>
 <h4 id="225-结论"><a class="header" href="#225-结论">2.2.5 结论</a></h4>
 <p>通过本节，大家应该了解到访问DRAM的过程并不是一个快速的过程。至少与处理器的速度相比，或与处理器访问寄存器及缓存的速度相比，DRAM的访问不算快。大家还需要记住CPU和内存的频率是不同的。Intel Core 2处理器运行在2.933GHz，而1.066GHz FSB有11:1的时钟比率(注:  1.066GHz的总线为四泵总线)。那么，内存总线上延迟一个周期意味着处理器延迟11个周期。绝大多数机器使用的DRAM更慢，因此延迟更大。在后续的章节中，我们需要讨论延迟这个问题时，请把以上的数字记在心里。 </p>
@@ -389,17 +372,13 @@ T T1 命令速率 </p>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="../cpu-memory/1-introduction.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
 
-                        
                             <a rel="next" href="../cpu-memory/3-cpu-caches.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
 
                         <div style="clear: both"></div>
                     </nav>
@@ -407,49 +386,36 @@ T T1 命令速率 </p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="../cpu-memory/1-introduction.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
 
-                
                     <a rel="next" href="../cpu-memory/3-cpu-caches.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
 
-        
 
-        
 
-        
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
-        
 
-        
 
-        
-        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
-        
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
 
-        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
-        
 
-        
 
+    </div>
     </body>
 </html>

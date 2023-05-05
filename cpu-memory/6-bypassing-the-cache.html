@@ -4,37 +4,24 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>高速缓存的优化 - itsusinn-books</title>
-        
-        
 
 
         <!-- Custom HTML head -->
         
-
-
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="../favicon.svg">
-        
-        
         <link rel="shortcut icon" href="../favicon.png">
-        
         <link rel="stylesheet" href="../css/variables.css">
         <link rel="stylesheet" href="../css/general.css">
         <link rel="stylesheet" href="../css/chrome.css">
-        
         <link rel="stylesheet" href="../css/print.css" media="print">
-        
 
         <!-- Fonts -->
         <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="../fonts/fonts.css">
-        
 
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="../highlight.css">
@@ -42,19 +29,18 @@
         <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
 
-        
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -70,7 +56,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -82,12 +68,14 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -103,8 +91,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
                         <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -114,35 +101,30 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">itsusinn-books</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
+
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -150,10 +132,9 @@
                         </ul>
                     </div>
                 </div>
-                
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -211,11 +192,12 @@ void setbytes(char *p, int c)
 </blockquote>
 <p>We measure the time it takes to initialize a 3000×3000 matrix.  To see how memory behaves, we use store instructions which do not use the cache.  On IA-32 processors the “non-temporal hint” is used for this.  For comparison we also measure ordinary store operations.  The results can be seen in Table 6.1.</p>
 <blockquote>
-<table><thead><tr><th></th><th>Inner Loop Increment</th><th></th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th></th><th>Inner Loop Increment</th><th></th></tr></thead><tbody>
 <tr><td></td><td>Row</td><td>Column</td></tr>
 <tr><td>Normal</td><td>0.048s</td><td>0.127s</td></tr>
 <tr><td>Non-Temporal</td><td>0.048s</td><td>0.160s</td></tr>
 </tbody></table>
+</div>
 <p><strong>Table 6.1: Timing Matrix Initialization</strong></p>
 </blockquote>
 <p>For the normal writes which do use the cache we see the expected result: if memory is used sequentially we get a much better result, 0.048s for the whole operation translating to about 750MB/s, compared to the more-or-less random access which takes 0.127s (about 280MB/s). The matrix is large enough that the caches are essentially ineffective.</p>
@@ -265,11 +247,11 @@ __m128i _mm_stream_load_si128 (__m128i *p);
 </blockquote>
 <p>We create a temporary variable to contain the transposed matrix.  This requires touching more memory, but this cost is, hopefully, recovered since the 1000 non-sequential accesses per column are more expensive (at least on modern hardware).  Time for some performance tests.  The results on a Intel Core 2 with 2666MHz clock speed are (in clock cycles):</p>
 <blockquote>
-<table><thead><tr><th></th><th>Original</th><th>Transposed</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th></th><th>Original</th><th>Transposed</th></tr></thead><tbody>
 <tr><td>Cycles</td><td>16,765,297,870</td><td>3,922,373,010</td></tr>
 <tr><td>Relative</td><td>100%</td><td>23.4%</td></tr>
 </tbody></table>
-</blockquote>
+</div></blockquote>
 <p>Through the simple transformation of the matrix we can achieve a 76.6% speed-up!  The copy operation is more than made up.  The 1000 non-sequential accesses really hurt.</p>
 <p>The next question is whether this is the best we can do.  We certainly need an alternative method anyway which does not require the additional copy.  We will not always have the luxury to be able to perform the copy: the matrix can be too large or the available memory too small.</p>
 <p>The search for an alternative implementation should start with a close examination of the math involved and the operations performed by the original implementation.  Trivial math knowledge allows us to see that the order in which the additions for each element of the result matrix are performed is irrelevant as long as each addend appears exactly once. {<em>We ignore arithmetic effects here which might change  the occurrence of overflows, underflows, or rounding.</em>}  This understanding allows us to look for solutions which reorder the additions performed in the inner loop of the original code.</p>
@@ -304,10 +286,11 @@ __m128i _mm_stream_load_si128 (__m128i *p);
 <p>The rest of the complication here results from the fact that gcc is not very smart when it comes to optimizing array indexing.  The introduction of the additional variables <code>rres</code>, <code>rmul1</code>, and <code>rmul2</code> optimizes the code by pulling common expressions out of the inner loops, as far down as possible.  The default aliasing rules of the C and C++ languages do not help the compiler making these decisions (unless <code>restrict</code> is used, all pointer accesses are potential sources of aliasing).  This is why Fortran is still a preferred language for numeric programming: it makes writing fast code easier. {<em>In theory the <code>restrict</code> keyword introduced into the C language in the 1999 revision should solve the problem. Compilers have not caught up yet, though.  The reason is mainly that too much incorrect code exists which would mislead the compiler and cause it to generate incorrect object code.</em>}</p>
 <p>How all this work pays off can be seen in Table 6.2.</p>
 <blockquote>
-<table><thead><tr><th></th><th>Original</th><th>Transposed</th><th>Sub-Matrix</th><th>Vectorized</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th></th><th>Original</th><th>Transposed</th><th>Sub-Matrix</th><th>Vectorized</th></tr></thead><tbody>
 <tr><td>Cycles</td><td>16,765,297,870</td><td>3,922,373,010</td><td>2,895,041,480</td><td>1,588,711,750</td></tr>
 <tr><td>Relative</td><td>100%</td><td>23.4%</td><td>17.3%</td><td>9.47%</td></tr>
 </tbody></table>
+</div>
 <p><strong>Table 6.2: Matrix Multiplication Timing</strong></p>
 </blockquote>
 <p>By avoiding the copying we gain another 6.1% of performance. Plus, we do not need any additional memory.  The input matrices can be arbitrarily large as long as the result matrix fits into memory as well.  This is a requirement for a general solution which we have now achieved.</p>
@@ -484,9 +467,10 @@ This method does not work for arrays, though.  Only the first  element of the ar
 <p>Compilers have options to enable levels of optimization; specific optimizations can also be individually enabled.  Many of the optimizations enabled at high optimization levels (-O2 and -O3 for gcc) deal with loop optimizations and function inlining.  In general, these are good optimizations.  If the code which is optimized in these ways accounts for a significant part of the total execution time of the program, overall performance can be improved.  Inlining of functions, in particular, allows the compiler to optimize larger chunks of code at a time which, in turn, enables the generation of machine code which better exploits the processor's pipeline architecture.  The handling of both code and data (through dead code elimination or value range propagation, and others) works better when larger parts of the program can be considered as a single unit.</p>
 <p>A larger code size means higher pressure on the L1i (and also L2 and higher level) caches.  This <em>can</em> lead to less performance. Smaller code can be faster.  Fortunately gcc has an optimization option to specify this.  If -Os is used the compiler will optimize for code size.  Optimizations which are known to increase the code size are disabled.  Using this option often produces surprising results. Especially if the compiler cannot really take advantage of loop unrolling and inlining, this option is a big win.</p>
 <p>Inlining can be controlled individually as well.  The compiler has heuristics and limits which guide inlining; these limits can be controlled by the programmer.  The -finline-limit option specifies how large a function must be to be considered too large for inlining.  If a function is called in multiple places, inlining it in all of them would cause an explosion in the code size.  But there is more.  Assume a function <code>inlcand</code> is called in two functions <code>f1</code> and <code>f2</code>.  The functions <code>f1</code> and <code>f2</code> are themselves called in sequence.</p>
-<table><thead><tr><th>With inlining</th><th></th><th>Without inlining</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>With inlining</th><th></th><th>Without inlining</th></tr></thead><tbody>
 <tr><td><code>start f1  code f1  inlined inlcand  more code f1 end f1 start f2  code f2  inlined inlcand  more code f2 end f2 </code></td><td></td><td><code>start inlcand  code inlcand end inlcand start f1  code f1 end f1 start f2  code f2 end f2 </code></td></tr>
 </tbody></table>
+</div>
 <p><strong>Table 6.3: Inlining Vs Not</strong>Table 6.3 shows how the generated code could look like in the cases of no inline and inlining in both functions.  If the function <code>inlcand</code> is inlined in both <code>f1</code> and <code>f2</code> the total size of the generated code is:</p>
 <blockquote>
 <p>size <code>f1</code> + size <code>f2</code> + 2 × size <code>inlcand</code></p>
@@ -722,9 +706,10 @@ ssize_t NUMA_cpu_level_mask(size_t destsize,
 <p>The network I/O hardware already has DMA to write the packet.  That means it communicates directly with the memory controller which potentially is integrated in the Northbridge.  Another side of the memory controller is the interface to the processors through the FSB (assuming the memory controller is not integrated into the CPU itself).</p>
 <p>The idea behind Direct Cache Access (DCA) is to extend the protocol between the NIC and the memory controller.  In Figure 6.9 the first figure shows the beginning of the DMA transfer in a regular machine with North- and Southbridge.</p>
 <blockquote>
-<table><thead><tr><th><img src="assets/cpumemory.54.png" alt="img" /></th><th><img src="assets/cpumemory.55.png" alt="img" /></th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th><img src="assets/cpumemory.54.png" alt="img" /></th><th><img src="assets/cpumemory.55.png" alt="img" /></th></tr></thead><tbody>
 <tr><td>DMA Initiated</td><td>DMA and DCA Executed</td></tr>
 </tbody></table>
+</div>
 <p><strong>Figure 6.9: Direct Cache Access</strong></p>
 </blockquote>
 <p>The NIC is connected to (or is part of) the Southbridge.  It initiates the DMA access but provides the new information about the packet header which should be pushed into the processor's cache.</p>
@@ -736,17 +721,13 @@ ssize_t NUMA_cpu_level_mask(size_t destsize,
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
                             <a rel="prev" href="../cpu-memory/5-numa-support.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
-                        
 
-                        
                             <a rel="next" href="../cpu-memory/7-multi-thread-optimizations.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
-                        
 
                         <div style="clear: both"></div>
                     </nav>
@@ -754,49 +735,36 @@ ssize_t NUMA_cpu_level_mask(size_t destsize,
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
                     <a rel="prev" href="../cpu-memory/5-numa-support.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
-                
 
-                
                     <a rel="next" href="../cpu-memory/7-multi-thread-optimizations.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
-                
             </nav>
 
         </div>
 
-        
 
-        
 
-        
 
-        
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
-        
 
-        
 
-        
-        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
-        
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
 
-        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
-        
 
-        
 
+    </div>
     </body>
 </html>

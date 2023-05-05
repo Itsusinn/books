@@ -4,39 +4,25 @@
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>itsusinn-books</title>
-        
         <meta name="robots" content="noindex" />
-        
-        
 
 
         <!-- Custom HTML head -->
         
-
-
-        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        
         <link rel="icon" href="favicon.svg">
-        
-        
         <link rel="shortcut icon" href="favicon.png">
-        
         <link rel="stylesheet" href="css/variables.css">
         <link rel="stylesheet" href="css/general.css">
         <link rel="stylesheet" href="css/chrome.css">
-        
         <link rel="stylesheet" href="css/print.css" media="print">
-        
 
         <!-- Fonts -->
         <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        
         <link rel="stylesheet" href="fonts/fonts.css">
-        
 
         <!-- Highlight.js Stylesheets -->
         <link rel="stylesheet" href="highlight.css">
@@ -44,19 +30,18 @@
         <link rel="stylesheet" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
-        
 
-        
     </head>
     <body>
+    <div id="body-container">
         <!-- Provide site root to javascript -->
-        <script type="text/javascript">
+        <script>
             var path_to_root = "";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
         </script>
 
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
-        <script type="text/javascript">
+        <script>
             try {
                 var theme = localStorage.getItem('mdbook-theme');
                 var sidebar = localStorage.getItem('mdbook-sidebar');
@@ -72,7 +57,7 @@
         </script>
 
         <!-- Set the theme before any content is loaded, prevents flash -->
-        <script type="text/javascript">
+        <script>
             var theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
@@ -84,12 +69,14 @@
         </script>
 
         <!-- Hide / unhide sidebar before it is displayed -->
-        <script type="text/javascript">
+        <script>
             var html = document.querySelector('html');
-            var sidebar = 'hidden';
+            var sidebar = null;
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
             }
             html.classList.remove('sidebar-visible');
             html.classList.add("sidebar-" + sidebar);
@@ -105,8 +92,7 @@
         <div id="page-wrapper" class="page-wrapper">
 
             <div class="page">
-                
-                <div id="menu-bar-hover-placeholder"></div>
+                                <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky bordered">
                     <div class="left-buttons">
                         <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
@@ -116,35 +102,30 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
                         </ul>
-                        
                         <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
                             <i class="fa fa-search"></i>
                         </button>
-                        
                     </div>
 
                     <h1 class="menu-title">itsusinn-books</h1>
 
                     <div class="right-buttons">
-                        
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        
-                        
+
                     </div>
                 </div>
 
-                
                 <div id="search-wrapper" class="hidden">
                     <form id="searchbar-outer" class="searchbar-outer">
-                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
                     </form>
                     <div id="searchresults-outer" class="searchresults-outer hidden">
                         <div id="searchresults-header" class="searchresults-header"></div>
@@ -152,10 +133,9 @@
                         </ul>
                     </div>
                 </div>
-                
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
-                <script type="text/javascript">
+                <script>
                     document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
                     document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
                     Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
@@ -171,7 +151,7 @@
 <p>https://www.oschina.net/translate/what-every-programmer-should-know-about-memory-part1</p>
 <p>https://www.oschina.net/translate/what-every-programmer-should-know-about-cpu-cache-part2</p>
 </blockquote>
-<h2 id="1-简介"><a class="header" href="#1-简介"><strong>1 简介</strong></a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="1-简介"><a class="header" href="#1-简介"><strong>1 简介</strong></a></h2>
 <p>早期计算机比现在更为简单。系统的各种组件例如CPU，内存，大容量存储器和网口，由于被共同开发因而有非常均衡的表现。例如，内存和网口并不比CPU在提供数据的时候更（特别的）快。 </p>
 <p>曾今计算机稳定的基本结构悄然改变，硬件开发人员开始致力于优化单个子系统。于是电脑一些组件的性能大大的落后因而成为了瓶颈。由于开销的原因，大容量存储器和内存子系统相对于其他组件来说改善得更为缓慢。 </p>
 <p>大容量存储的性能问题往往靠软件来改善:  操作系统将常用(且最有可能被用)的数据放在主存中，因为后者的速度要快上几个数量级。或者将缓存加入存储设备中，这样就可以在不修改操作系统的前提下提升性能。{然而，为了在使用缓存时保证数据的完整性，仍然要作出一些修改。}这些内容不在本文的谈论范围之内，就不作赘述了。 </p>
@@ -200,7 +180,7 @@
 <p>我首先需要感谢Johnray Fuller尤其是Jonathan Corbet，感谢他们将作者的英语转化成为更为规范的形式。Markus Armbruster提供大量本文中对于问题和缩写有价值的建议。 </p>
 <p><strong>1.4 关于本文</strong> </p>
 <p>本文题目对David Goldberg的经典文献《What Every Computer Scientist Should Know About Floating-Point Arithmetic》[goldberg]表示致敬。Goldberg的论文虽然不普及，但是对于任何有志于严格编程的人都会是一个先决条件。 </p>
-<h2 id="2-商用硬件现状"><a class="header" href="#2-商用硬件现状"><strong>2 商用硬件现状</strong></a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="2-商用硬件现状"><a class="header" href="#2-商用硬件现状"><strong>2 商用硬件现状</strong></a></h2>
 <p>鉴于目前专业硬件正在逐渐淡出，理解商用硬件的现状变得十分重要。现如今，人们更多的采用水平扩展，也就是说，用大量小型、互联的商用计算机代替巨大、超快(但超贵)的系统。原因在于，快速而廉价的网络硬件已经崛起。那些大型的专用系统仍然有一席之地，但已被商用硬件后来居上。2007年，Red  Hat认为，未来构成数据中心的“积木”将会是拥有最多4个插槽的计算机，每个插槽插入一个四核CPU，这些CPU都是超线程的。{超线程使单个处理器核心能同时处理两个以上的任务，只需加入一点点额外硬件}。也就是说，这些数据中心中的标准系统拥有最多64个虚拟处理器。当然可以支持更大的系统，但人们认为4插槽、4核CPU是最佳配置，绝大多数的优化都针对这样的配置。 </p>
 <p>在不同商用计算机之间，也存在着巨大的差异。不过，我们关注在主要的差异上，可以涵盖到超过90%以上的硬件。需要注意的是，这些技术上的细节往往日新月异，变化极快，因此大家在阅读的时候也需要注意本文的写作时间。 </p>
 <p>这么多年来，个人计算机和小型服务器被标准化到了一个芯片组上，它由两部分组成: 北桥和南桥，见图2.1。 </p>
@@ -357,13 +337,14 @@ T T1 命令速率 </p>
 </blockquote>
 <p>为了更进一步，DDR2有了更多的创新。在图2.12中，最明显的变化是，总线的频率加倍了。频率的加倍意味着带宽的加倍。如果对单元阵列的频率加倍，显然是不经济的，因此DDR2要求I/O缓冲区在每个时钟周期读取4位。也就是说，DDR2的变化仅在于使I/O缓冲区运行在更高的速度上。这是可行的，而且耗电也不会显著增加。DDR2的命名与DDR1相仿，只是将因子2替换成4(四泵总线)。图2.13显示了目前常用的一些模块的名称。 </p>
 <blockquote>
-<table><thead><tr><th>阵列频率</th><th>总线频率</th><th>数据率</th><th>名称(速率)</th><th>名称  (FSB)</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>阵列频率</th><th>总线频率</th><th>数据率</th><th>名称(速率)</th><th>名称  (FSB)</th></tr></thead><tbody>
 <tr><td>133MHz</td><td>266MHz</td><td>4,256MB/s</td><td>PC2-4200</td><td>DDR2-533</td></tr>
 <tr><td>166MHz</td><td>333MHz</td><td>5,312MB/s</td><td>PC2-5300</td><td>DDR2-667</td></tr>
 <tr><td>200MHz</td><td>400MHz</td><td>6,400MB/s</td><td>PC2-6400</td><td>DDR2-800</td></tr>
 <tr><td>250MHz</td><td>500MHz</td><td>8,000MB/s</td><td>PC2-8000</td><td>DDR2-1000</td></tr>
 <tr><td>266MHz</td><td>533MHz</td><td>8,512MB/s</td><td>PC2-8500</td><td>DDR2-1066</td></tr>
 </tbody></table>
+</div>
 <p>图2.13: DDR2模块名</p>
 </blockquote>
 <p>在命名方面还有一个拧巴的地方。FSB速度是用有效频率来标记的，即把上升、下降沿均传输数据的因素考虑进去，因此数字被撑大了。所以，拥有266MHz总线的133MHz模块有着533MHz的FSB“频率”。 </p>
@@ -377,13 +358,14 @@ T T1 命令速率 </p>
 <p>DDR3可能会有一个问题，即在1600Mb/s或更高速率下，每个通道的模块数可能会限制为1。在早期版本中，这一要求是针对所有频率的。我们希望这个要求可以提高一些，否则系统容量将会受到严重的限制。 </p>
 <p>图2.15显示了我们预计中各DDR3模块的名称。JEDEC目前同意了前四种。由于Intel的45nm处理器是1600Mb/s的FSB，1866Mb/s可以用于超频市场。随着DDR3的发展，可能会有更多类型加入。 </p>
 <blockquote>
-<table><thead><tr><th>阵列频率</th><th>总线频率</th><th>数据速率</th><th>名称(速率)</th><th>名称  (FSB)</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>阵列频率</th><th>总线频率</th><th>数据速率</th><th>名称(速率)</th><th>名称  (FSB)</th></tr></thead><tbody>
 <tr><td>100MHz</td><td>400MHz</td><td>6,400MB/s</td><td>PC3-6400</td><td>DDR3-800</td></tr>
 <tr><td>133MHz</td><td>533MHz</td><td>8,512MB/s</td><td>PC3-8500</td><td>DDR3-1066</td></tr>
 <tr><td>166MHz</td><td>667MHz</td><td>10,667MB/s</td><td>PC3-10667</td><td>DDR3-1333</td></tr>
 <tr><td>200MHz</td><td>800MHz</td><td>12,800MB/s</td><td>PC3-12800</td><td>DDR3-1600</td></tr>
 <tr><td>233MHz</td><td>933MHz</td><td>14,933MB/s</td><td>PC3-14900</td><td>DDR3-1866</td></tr>
 </tbody></table>
+</div>
 <p>图2.15: DDR3模块名</p>
 </blockquote>
 <p>所有的DDR内存都有一个问题：不断增加的频率使得建立并行数据总线变得十分困难。一个DDR2模块有240根引脚。所有到地址和数据引脚的连线必须被布置得差不多一样长。更大的问题是，如果多于一个DDR模块通过菊花链连接在同一个总线上，每个模块所接收到的信号随着模块的增加会变得越来越扭曲。DDR2规范允许每条总线（又称通道）连接最多两个模块，DDR3在高频率下只允许每个通道连接一个模块。每条总线多达240根引脚使得单个北桥无法以合理的方式驱动两个通道。替代方案是增加外部内存控制器（如图2.2），但这会提高成本。 </p>
@@ -403,14 +385,14 @@ T T1 命令速率 </p>
 <p>DDR2 FB-DRAM </p>
 </blockquote>
 <blockquote>
-<table><thead><tr><th></th><th>DDR2</th><th>FB-DRAM</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th></th><th>DDR2</th><th>FB-DRAM</th></tr></thead><tbody>
 <tr><td>脚</td><td>240</td><td>69</td></tr>
 <tr><td>通道</td><td>2</td><td>6</td></tr>
 <tr><td>每通道DIMM数</td><td>2</td><td>8</td></tr>
 <tr><td>最大内存</td><td>16GB</td><td>192GB</td></tr>
 <tr><td>吞吐量</td><td>~10GB/s</td><td>~40GB/s</td></tr>
 </tbody></table>
-</blockquote>
+</div></blockquote>
 <p>如果在单个通道上使用多个DIMM，会有一些问题。信号在每个DIMM上都会有延迟(尽管很小)，也就是说，延迟是递增的。不过，如果在相同频率和相同容量上进行比较，FB-DRAM总是能快过DDR2及DDR3，因为FB-DRAM只需要在每个通道上使用一个DIMM即可。而如果说到大型内存系统，那么DDR更是没有商用组件的解决方案。</p>
 <h4 id="225-结论"><a class="header" href="#225-结论">2.2.5 结论</a></h4>
 <p>通过本节，大家应该了解到访问DRAM的过程并不是一个快速的过程。至少与处理器的速度相比，或与处理器访问寄存器及缓存的速度相比，DRAM的访问不算快。大家还需要记住CPU和内存的频率是不同的。Intel Core 2处理器运行在2.933GHz，而1.066GHz FSB有11:1的时钟比率(注:  1.066GHz的总线为四泵总线)。那么，内存总线上延迟一个周期意味着处理器延迟11个周期。绝大多数机器使用的DRAM更慢，因此延迟更大。在后续的章节中，我们需要讨论延迟这个问题时，请把以上的数字记在心里。 </p>
@@ -421,7 +403,7 @@ T T1 命令速率 </p>
 <p>除了CPU外，系统中还有其它一些组件也可以访问主存。高性能网卡或大规模存储控制器是无法承受通过CPU来传输数据的，它们一般直接对内存进行读写(直接内存访问，DMA)。在图2.1中可以看到，它们可以通过南桥和北桥直接访问内存。另外，其它总线，比如USB等也需要FSB带宽，即使它们并不使用DMA，但南桥仍要通过FSB连接到北桥。 </p>
 <p>DMA当然有很大的优点，但也意味着FSB带宽会有更多的竞争。在有大量DMA流量的情况下，CPU在访问内存时必然会有更大的延迟。我们可以用一些硬件来解决这个问题。例如，通过图2.3中的架构，我们可以挑选不受DMA影响的节点，让它们的内存为我们的计算服务。还可以在每个节点上连接一个南桥，将FSB的负荷均匀地分担到每个节点上。除此以外，还有许多其它方法。我们将在第6节中介绍一些技术和编程接口，它们能够帮助我们通过软件的方式改善这个问题。 </p>
 <p>最后，还需要提一下某些廉价系统，它们的图形系统没有专用的显存，而是采用主存的一部分作为显存。由于对显存的访问非常频繁(例如，对于1024x768、16bpp、60Hz的显示设置来说，需要95MB/s的数据速率)，而主存并不像显卡上的显存，并没有两个端口，因此这种配置会对系统性能、尤其是时延造成一定的影响。如果大家对系统性能要求比较高，最好不要采用这种配置。这种系统带来的问题超过了本身的价值。人们在购买它们时已经做好了性能不佳的心理准备。 </p>
-<h1 id="3-cpu-高速缓存"><a class="header" href="#3-cpu-高速缓存">3 CPU 高速缓存</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="3-cpu-高速缓存"><a class="header" href="#3-cpu-高速缓存">3 CPU 高速缓存</a></h1>
 <p>现在的CPU比25年前要精密得多了。在那个年代，CPU的频率与内存总线的频率基本在同一层面上。内存的访问速度仅比寄存器慢那么一点点。但是，这一局面在上世纪90年代被打破了。CPU的频率大大提升，但内存总线的频率与内存芯片的性能却没有得到成比例的提升。并不是因为造不出更快的内存，只是因为太贵了。内存如果要达到目前CPU那样的速度，那么它的造价恐怕要贵上好几个数量级。</p>
 <p>如果有两个选项让你选择，一个是速度非常快、但容量很小的内存，一个是速度还算快、但容量很多的内存，如果你的工作集比较大，超过了前一种情况，那么人们总是会选择第二个选项。原因在于辅存(一般为磁盘)的速度。由于工作集超过主存，那么必须用辅存来保存交换出去的那部分数据，而辅存的速度往往要比主存慢上好几个数量级。 </p>
 <p>好在这问题也并不全然是非甲即乙的选择。在配置大量DRAM的同时，我们还可以配置少量SRAM。将地址空间的某个部分划给SRAM，剩下的部分划给DRAM。一般来说，SRAM可以当作扩展的寄存器来使用。 </p>
@@ -473,12 +455,13 @@ T T1 命令速率 </p>
 </ul>
 <p>如果遵守这些规则,处理器甚至可以在多处理器系统中更加有效的使用它们的缓存。所有的处理器需要做的就是监控其他每一个写访问和比较本地缓存中的地址。在下一节中,我们将介绍更多细节方面的实现,尤其是存储开销方面的细节。</p>
 <p>最后，我们至少应该关注高速缓存命中或未命中带来的消耗。下面是英特尔奔腾 M 的数据： </p>
-<table><thead><tr><th>To Where</th><th>Cycles</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>To Where</th><th>Cycles</th></tr></thead><tbody>
 <tr><td>Register</td><td>&lt;= 1</td></tr>
 <tr><td>L1d</td><td>~3</td></tr>
 <tr><td>L2</td><td>~14</td></tr>
 <tr><td>Main Memory</td><td>~240</td></tr>
 </tbody></table>
+</div>
 <p>这是在CPU周期中的实际访问时间。有趣的是，对于L2高速缓存的访问时间很大一部分（甚至是大部分）是由线路的延迟引起的。这是一个限制，增加高速缓存的大小变得更糟。只有当减小时（例如，从60纳米的Merom到45纳米Penryn处理器），可以提高这些数据。 </p>
 <p>表格中的数字看起来很高，但是，幸运的是，整个成本不必须负担每次出现的缓存加载和缓存失效。某些部分的成本可以被隐藏。现在的处理器都使用不同长度的内部管道，在管道内指令被解码，并为准备执行。如果数据要传送到一个寄存器，那么部分的准备工作是从存储器（或高速缓存）加载数据。如果内存加载操作在管道中足够早的进行，它可以与其他操作并行发生，那么加载的全部发销可能会被隐藏。对L1D常常可能如此；某些有长管道的处理器的L2也可以。</p>
 <p>提早启动内存的读取有许多障碍。它可能只是简单的不具有足够资源供内存访问，或者地址从另一个指令获取，然后加载的最终地址才变得可用。在这种情况下，加载成本是不能隐藏的（完全的）。</p>
@@ -514,7 +497,7 @@ T T1 命令速率 </p>
 </blockquote>
 <p>可以通过使高速缓存的组关联来解决此问题。组关联结合高速缓存的全关联和直接映射高速缓存特点，在很大程度上避免那些设计的弱点。图3.7显示了一个组关联高速缓存的设计。标签和数据存储分成不同的组并可以通过地址选择。这类似直接映射高速缓存。但是，小数目的值可以在同一个高速缓存组缓存，而不是一个缓存组只有一个元素，用于在高速缓存中的每个设定值是相同的一组值的缓存。所有组的成员的标签可以并行比较，这类似全关联缓存的功能。 </p>
 <p>其结果是高速缓存，不容易被不幸或故意选择同属同一组编号的地址所击败，同时高速缓存的大小并不限于由比较器的数目，可以以并行的方式实现。如果高速缓存增长，只（在该图中）增加列的数目，而不增加行数。只有高速缓存之间的关联性增加，行数才会增加。今天，处理器的L2高速缓存或更高的高速缓存，使用的关联性高达16。 L1高速缓存通常使用8。 </p>
-<table><thead><tr><th>L2  Cache  Size</th><th>Associativity</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>L2  Cache  Size</th><th>Associativity</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></thead><tbody>
 <tr><td>Direct</td><td>2</td><td>4</td><td>8</td><td></td><td></td><td></td><td></td><td></td></tr>
 <tr><td>CL=32</td><td>CL=64</td><td>CL=32</td><td>CL=64</td><td>CL=32</td><td>CL=64</td><td>CL=32</td><td>CL=64</td><td></td></tr>
 <tr><td>512k</td><td>27,794,595</td><td>20,422,527</td><td>25,222,611</td><td>18,303,581</td><td>24,096,510</td><td>17,356,121</td><td>23,666,929</td><td>17,029,334</td></tr>
@@ -524,6 +507,7 @@ T T1 命令速率 </p>
 <tr><td>8M</td><td>4,731,904</td><td>3,209,693</td><td>2,690,498</td><td>1,602,957</td><td>2,207,655</td><td>1,228,190</td><td>2,111,075</td><td>1,155,847</td></tr>
 <tr><td>16M</td><td>2,620,587</td><td>1,528,592</td><td>1,958,293</td><td>1,089,580</td><td>1,704,878</td><td>883,530</td><td>1,671,541</td><td>862,324</td></tr>
 </tbody></table>
+</div>
 <p><strong>Table 3.1: 高速缓存大小，关联行，段大小的影响</strong> </p>
 <p>给定我们4MB/64B高速缓存，8路组关联，相关的缓存留给我们的有8192组，只用标签的13位，就可以寻址缓集。要确定哪些（如果有的话）的缓存组设置中的条目包含寻址的高速缓存行，8个标签都要进行比较。在很短的时间内做出来是可行的。通过一个实验，我们可以看到，这是有意义的。 </p>
 <p>表3.1显示一个程序在改变缓存大小，缓存段大小和关联集大小，L2高速缓存的缓存失效数量（根据Linux内核相关的方面人的说法，GCC在这种情况下，是他们所有中最重要的标尺）。在7.2节中，我们将介绍工具来模拟此测试要求的高速缓存。 </p>
@@ -605,7 +589,7 @@ T T1 命令速率 </p>
 </blockquote>
 <p>决定顺序式缓存处理性能的另一个重要因素是缓存容量。虽然这一点比较明显，但还是值得一说。图3.14展示了128字节长元素的测试结果(64位机，NPAD=15)。这次我们比较三台不同计算机的曲线，两台P4，一台Core 2。两台P4的区别是缓存容量不同，一台是32k的L1d和1M的L2，一台是16K的L1d、512k的L2和2M的L3。Core  2那台则是32k的L1d和4M的L2。 </p>
 <p>图中最有趣的地方，并不是Core 2如何大胜两台P4，而是工作集开始增长到连末级缓存也放不下、需要主存热情参与之后的部分。 </p>
-<table><thead><tr><th>Set  Size</th><th>Sequential</th><th>Random</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Set  Size</th><th>Sequential</th><th>Random</th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr></thead><tbody>
 <tr><td>L2 Hit</td><td>L2 Miss</td><td>#Iter</td><td>Ratio Miss/Hit</td><td>L2 Accesses Per Iter</td><td>L2 Hit</td><td>L2 Miss</td><td>#Iter</td><td>Ratio Miss/Hit</td><td>L2 Accesses Per Iter</td><td></td></tr>
 <tr><td>220</td><td>88,636</td><td>843</td><td>16,384</td><td>0.94%</td><td>5.5</td><td>30,462</td><td>4721</td><td>1,024</td><td>13.42%</td><td>34.4</td></tr>
 <tr><td>221</td><td>88,105</td><td>1,584</td><td>8,192</td><td>1.77%</td><td>10.9</td><td>21,817</td><td>15,151</td><td>512</td><td>40.98%</td><td>72.2</td></tr>
@@ -618,6 +602,7 @@ T T1 命令速率 </p>
 <tr><td>228</td><td>88,120</td><td>2,939</td><td>64</td><td>3.23%</td><td>1,422.8</td><td>81,906</td><td>87,167</td><td>4</td><td>51.56%</td><td>42,268.3</td></tr>
 <tr><td>229</td><td>88,137</td><td>4,318</td><td>32</td><td>4.67%</td><td>2,889.2</td><td>119,079</td><td>163,398</td><td>2</td><td>57.84%</td><td>141,238.5</td></tr>
 </tbody></table>
+</div>
 <p><strong>表3.2: 顺序访问与随机访问时L2命中与未命中的情况，NPAD=0</strong> </p>
 <p>与我们预计的相似，最末级缓存越大，曲线停留在L2访问耗时区的时间越长。在220字节的工作集时，第二台P4(更老一些)比第一台P4要快上一倍，这要完全归功于更大的末级缓存。而Core 2拜它巨大的4M L2所赐，表现更为卓越。 </p>
 <p>对于随机的工作负荷而言，可能没有这么惊人的效果，但是，如果我们能将工作负荷进行一些裁剪，让它匹配末级缓存的容量，就完全可以得到非常大的性能提升。也是由于这个原因，有时候我们需要多花一些钱，买一个拥有更大缓存的处理器。 </p>
@@ -712,10 +697,11 @@ T T1 命令速率 </p>
 </blockquote>
 <p>最后，在图3.21中，我们展示了随机访问的Addnextlast测试的结果。这里主要是为了让大家感受一下这些巨大到爆的数字。极端情况下，甚至用了1500个周期才处理完一个元素。如果加入更多线程，真是不可想象哪。我们把多线程的效能总结了一下: </p>
 <blockquote>
-<table><thead><tr><th>#Threads</th><th>Seq Read</th><th>Seq Inc</th><th>Rand Add</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>#Threads</th><th>Seq Read</th><th>Seq Inc</th><th>Rand Add</th></tr></thead><tbody>
 <tr><td>2</td><td>1.69</td><td>1.69</td><td>1.54</td></tr>
 <tr><td>4</td><td>2.98</td><td>2.07</td><td>1.65</td></tr>
 </tbody></table>
+</div>
 <p>表3.3: 多线程的效能</p>
 </blockquote>
 <p>这个表展示了图3.21中多线程运行大工作集时的效能。表中的数字表示测试程序在使用多线程处理大工作集时可能达到的最大加速因子。双线程和四线程的理论最大加速因子分别是2和4。从表中数据来看，双线程的结果还能接受，但四线程的结果表明，扩展到双线程以上是没有什么意义的，带来的收益可以忽略不计。只要我们把图3.21换个方式呈现，就可以很容易看清这一点。 </p>
@@ -732,7 +718,7 @@ T T1 命令速率 </p>
 </blockquote>
 <p>各变量的含义如下: </p>
 <blockquote>
-<table><thead><tr><th>N</th><th>=</th><th>指令数</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>N</th><th>=</th><th>指令数</th></tr></thead><tbody>
 <tr><td>Fmem</td><td>=</td><td>N中访问内存的比例</td></tr>
 <tr><td>Ghit</td><td>=</td><td>命中缓存的比例</td></tr>
 <tr><td>Tproc</td><td>=</td><td>每条指令所用的周期数</td></tr>
@@ -740,7 +726,7 @@ T T1 命令速率 </p>
 <tr><td>Tmiss</td><td>=</td><td>缓冲未命中所用的周期数</td></tr>
 <tr><td>Texe</td><td>=</td><td>程序的执行时间</td></tr>
 </tbody></table>
-</blockquote>
+</div></blockquote>
 <p>为了让任何判读使用双线程，两个线程之中任一线程的执行时间最多为单线程指令的一半。两者都有一个唯一的变量缓存命中数。 如果我们要解决最小缓存命中率相等的问题需要使我们获得的线程的执行率不少于50%或更多，如图 3.23. </p>
 <blockquote>
 <p><img src="cpu-memory/assets/27113721_Do9s.png" alt="img" /></p>
@@ -870,7 +856,7 @@ T T1 命令速率 </p>
 </blockquote>
 <p>图上的数字表明，当工作集大到对FSB造成压力的程度时，高速FSB确实会带来巨大的优势。在我们的测试中，性能的提升达到了18.5%，接近理论上的极限。而当工作集比较小，可以完全纳入缓存时，FSB的作用并不大。当然，这里我们只测试了一个程序的情况，在实际环境中，系统往往运行多个进程，工作集是很容易超过缓存容量的。 </p>
 <p>如今，一些英特尔的处理器，支持前端总线(FSB)的速度高达1,333  MHz，这意味着速度有另外60％的提升。将来还会出现更高的速度。速度是很重要的，工作集会更大，快速的RAM和高FSB速度的内存肯定是值得投资的。我们必须小心使用它，因为即使处理器可以支持更高的前端总线速度，但是主板的北桥芯片可能不会。使用时，检查它的规范是至关重要的。</p>
-<h2 id="4-虚拟内存"><a class="header" href="#4-虚拟内存"><strong>4 虚拟内存</strong></a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="4-虚拟内存"><a class="header" href="#4-虚拟内存"><strong>4 虚拟内存</strong></a></h2>
 <p>处理器的虚拟内存子系统为每个进程实现了虚拟地址空间。这让每个进程认为它在系统中是独立的。虚拟内存的优点列表别的地方描述的非常详细，所以这里就不重复了。本节集中在虚拟内存的实际的实现细节，和相关的成本。 </p>
 <p>虚拟地址空间是由CPU的内存管理单元(MMU)实现的。OS必须填充页表数据结构，但大多数CPU自己做了剩下的工作。这事实上是一个相当复杂的机制；最好的理解它的方法是引入数据结构来描述虚拟地址空间。 </p>
 <p>由MMU进行地址翻译的输入地址是虚拟地址。通常对它的值很少有限制 — 假设还有一点的话。  虚拟地址在32位系统中是32位的数值，在64位系统中是64位的数值。在一些系统，例如x86和x86-64，使用的地址实际上包含了另一个层次的间接寻址：这些结构使用分段，这些分段只是简单的给每个逻辑地址加上位移。我们可以忽略这一部分的地址产生，它不重要，不是程序员非常关心的内存处理性能方面的东西。{<em>x86的分段限制是与性能相关的，但那是另一回事了</em>} </p>
@@ -954,21 +940,21 @@ Program Headers:
 <p>这就是为什么对VMM/Dom0模型的分析是这么有吸引力的一个选择。图4.5显示了KVM的Linux内核扩展如何尝试解决这个问题的。并没有直接运行在硬件之上且管理所有客户的单独的VMM，替代的，一个普通的Linux内核接管了这个功能。这意味着Linux内核中完整且复杂的内存管理功能，被用来管理系统的内存。客户域运行于普通的用户级进程，创建者称其为“客户模式”。虚拟化的功能，参数的或全虚拟化的，被另一个用户级进程KVM VMM控制。这也就是另一个进程用特别的内核实现的KVM设备，去恰巧控制一个客户域。</p>
 <p>这个模型相较Xen独立的VMM模型好处在于，即使客户OS使用时，仍然有两个内存处理程序在工作，只需要在Linux内核里有一个实现。不需要像Xen  VMM那样从另一段代码复制同样的功能。这带来更少的工作，更少的bug，或许还有更少的两个内存处理程序接触产生的摩擦，因为一个Linux客户的内存处理程序与运行于裸硬件之上的Linux内核的外部内存处理程序，做出了相同的假设。 </p>
 <p>总的来说，程序员必须清醒认识到，采用虚拟化时，内存操作的代价比没有虚拟化要高很多。任何减少这个工作的优化，将在虚拟化环境付出更多。随着时间的过去，处理器的设计者将通过像EPT和NPT技术越来越减少这个差距，但它永远都不会完全消失。 </p>
-<h2 id="5-numa-support"><a class="header" href="#5-numa-support">5 NUMA Support</a></h2>
-<p>In Section 2 we saw that, on some machines, the cost of access to specific regions of physical memory differs depending on where the access originated.  This type of hardware requires special care from the OS and the applications.  We will start with a few details of NUMA hardware, then we will cover some of the support the Linux kernel provides for NUMA.</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="5-numa-支持"><a class="header" href="#5-numa-支持">5 NUMA 支持</a></h2>
+<p>在第二部分中，我们看到在某些机器上，访问物理内存特定区域的成本取决于访问的来源。这种类型的硬件需要操作系统和应用程序特别注意。我们将从 NUMA 硬件的一些细节开始，然后再介绍 Linux 内核为 NUMA 提供的一些支持。</p>
 <h3 id="51-numa-hardware"><a class="header" href="#51-numa-hardware">5.1 NUMA Hardware</a></h3>
-<p>Non-uniform memory architectures are becoming more and more common. In the simplest form of NUMA, a processor can have local memory (see Figure 2.3) which is cheaper to access than memory local to other processors.  The difference in cost for this type of NUMA system is not high, i.e., the NUMA factor is low.</p>
-<p>NUMA is also—and especially—used in big machines.  We have described the problems of having many processors access the same memory.  For commodity hardware all processors would share the same Northbridge (ignoring the AMD Opteron NUMA nodes for now, they have their own problems).  This makes the Northbridge a severe bottleneck since <em>all</em> memory traffic is routed through it.  Big machines can, of course, use custom hardware in place of the Northbridge but, unless the memory chips used have multiple ports—i.e. they can be used from multiple busses—there still is a bottleneck.  Multiport RAM is complicated and expensive to build and support and, therefore, it is hardly ever used.</p>
-<p>The next step up in complexity is the model AMD uses where an interconnect mechanism (Hypertransport in AMD's case, technology they licensed from Digital) provides access for processors which are not directly connected to the RAM.  The size of the structures which can be formed this way is limited unless one wants to increase the diameter (i.e., the maximum distance between any two nodes) arbitrarily.</p>
+<p>非均匀内存体系结构越来越普遍。在最简单的 NUMA 形式中，处理器可以具有本地内存（参见图2.3），其访问成本比其他处理器本地内存要便宜。这种类型的 NUMA 系统的成本差异并不高，即 NUMA 因子很低。</p>
+<p>NUMA 还特别用于大型机器。我们已经描述了许多处理器访问同一内存所带来的问题。对于商用硬件，所有处理器都将共享同一个北桥（暂不考虑 AMD Opteron NUMA 节点，它们有自己的问题）。这使得北桥成为一个严重的瓶颈，因为所有内存流量都通过它进行路由。当然，大型机器可以使用自定义硬件代替北桥，但是，除非使用的内存芯片具有多个端口，即它们可以从多个总线中使用，否则仍然存在瓶颈。多端口 RAM 很复杂，成本很高，因此几乎不会使用。</p>
+<p>复杂度的下一个增加是 AMD 使用的模型，其中一种互连机制（在 AMD 的情况下是 Hypertransport，这是他们从 Digital 获得许可的技术）为未直接连接到 RAM 的处理器提供访问。这种方式可以形成的结构的大小受到限制，除非想任意增加直径（即任意两个节点之间的最大距离）。</p>
 <blockquote>
 <p><img src="cpu-memory/assets/cpumemory.20.png" alt="img" /></p>
 <p><strong>Figure 5.1: Hypercubes</strong></p>
 </blockquote>
-<p>An efficient topology for the nodes is the hypercube, which limits the number of nodes to 2C where C is the number of interconnect  interfaces each node has.  Hypercubes have the smallest diameter for all systems with 2n CPUs.  Figure 5.1 shows the first  three hypercubes.  Each hypercube has a diameter of C which is the  absolute minimum.  AMD's first-generation Opteron processors have three hypertransport links per processor.  At least one of the processors has to have a Southbridge attached to one link, meaning, currently, that a hypercube with C=2 can be implemented directly and efficiently.  The next generation is announced to have four links, at which point C=3 hypercubes will be possible.</p>
-<p>This does not mean, though, that larger accumulations of processors cannot be supported.  There are companies which have developed crossbars allowing larger sets of processors to be used (e.g., Newisys's Horus).  But these crossbars increase the NUMA factor and they stop being effective at a certain number of processors.</p>
-<p>The next step up means connecting groups of CPUs and implementing a shared memory for all of them.  All such systems need specialized hardware and are by no means commodity systems.  Such designs exist at several levels of complexity.  A system which is still quite close to a commodity machine is IBM x445 and similar machines.  They can be bought as ordinary 4U, 8-way machines with x86 and x86-64 processors. Two (at some point up to four) of these machines can then be connected to work as a single machine with shared memory.  The interconnect used introduces a significant NUMA factor which the OS, as well as applications, must take into account.</p>
-<p>At the other end of the spectrum, machines like SGI's Altix are designed specifically to be interconnected.  SGI's NUMAlink interconnect fabric is very fast and has a low latency; both of these are requirements for high-performance computing (HPC), especially when Message Passing Interfaces (MPI) are used.  The drawback is, of course, that such sophistication and specialization is very expensive.  They make a reasonably low NUMA factor possible but with the number of CPUs these machines can have (several thousands) and the limited capacity of the interconnects, the NUMA factor is actually dynamic and can reach unacceptable levels depending on the workload.</p>
-<p>More commonly used are solutions where clusters of commodity machines are connected using high-speed networking.  But these are not NUMA machines; they do not implement a shared address space and therefore do not fall into any category which is discussed here.</p>
+<p>高效的节点拓扑结构是超立方体，它将节点数限制为2C，其中C是每个节点的互连接口数。对于所有带有2n个CPU的系统，超立方体具有最小的直径。图5.1显示了前三个超立方体。每个超立方体的直径为C，这是绝对最小的。AMD的第一代Opteron处理器每个处理器有三个HyperTransport连接。至少有一个处理器必须连接一个Southbridge，这意味着目前可以直接且高效地实现C=2的超立方体。下一代处理器宣布将有四个连接，到那时C=3的超立方体将成为可能。</p>
+<p>但这并不意味着不支持更大的处理器积累。一些公司已经开发了交叉开关，允许使用更大的处理器集合（例如Newisys的Horus）。但是这些交叉开关会增加NUMA因素，并且在一定数量的处理器上不再有效。</p>
+<p>下一步是连接CPU组并为它们实现共享内存。所有这样的系统都需要专用硬件，绝不是商品系统。这样的设计存在多个复杂度级别。一个仍然非常接近商品机的系统是IBM x445和类似的机器。它们可以作为普通的4U，8路机器购买，带有x86和x86-64处理器。然后可以将两个（在某些时候最多四个）这样的机器连接起来，以共享内存的方式作为一个单一的机器。所使用的互连引入了一个显著的NUMA因素，这是操作系统以及应用程序必须考虑的。</p>
+<p>在另一端的系统中，像SGI的Altix就是专门设计用于互连。SGI的NUMAlink互连结构非常快且延迟低，这些都是高性能计算（HPC）的要求，特别是当使用消息传递接口（MPI）时。缺点当然是这种复杂性和专业化非常昂贵。它们可以实现相对较低的NUMA因素，但由于这些机器可以拥有数千个CPU并且互连的容量有限，NUMA因素实际上是动态的，取决于工作负载而可能达到不可接受的水平。</p>
+<p>更常见的解决方案是使用高速网络连接商品机集群。但这些不是NUMA机器；它们不实现共享地址空间，因此不属于本文讨论的任何类别。</p>
 <h3 id="52-os-support-for-numa"><a class="header" href="#52-os-support-for-numa">5.2 OS Support for NUMA</a></h3>
 <p>To support NUMA machines, the OS has to take the distributed nature of the memory into account.  For instance, if a process is run on a given processor, the physical RAM assigned to the process's address space should come from local memory.  Otherwise each instruction has to access remote memory for code and data.  There are special cases to be taken into account which are only present in NUMA machines.  The text segment of DSOs is normally present exactly once in a machine's physical RAM.  But if the DSO is used by processes and threads on all CPUs (for instance, the basic runtime libraries like <code>libc</code>) this means that all but a few processors have to have remote accesses.  The OS ideally would “mirror” such DSOs into each processor's physical RAM and use local copies.  This is an optimization, not a requirement, and generally hard to implement.  It might not be supported or only in a limited fashion.</p>
 <p>To avoid making the situation worse, the OS should not migrate a process or thread from one node to another.  The OS should already try to avoid migrating processes on normal multi-processor machines because migrating from one processor to another means the cache content is lost.  If load distribution requires migrating a process or thread off of a processor, the OS can usually pick an arbitrary new processor which has sufficient capacity left.  In NUMA environments the selection of the new processor is a bit more limited.  The newly selected processor should not have higher access costs to the memory the process is using than the old processor; this restricts the list of targets.  If there is no free processor matching that criteria available, the OS has no choice but to migrate to a processor where memory access is more expensive.</p>
@@ -982,7 +968,7 @@ Program Headers:
 </code></pre>
 <p>In Section 6.2.1 we will see interfaces which can be used to query the size of the various caches.  What is important here is the topology of the caches.  The directories above contain subdirectories (named <code>index*</code>) which list information about the various caches the CPU possesses.  The files <code>type</code>, <code>level</code>, and <code>shared_cpu_map</code> are the important files in these directories as far as the topology is concerned.  For an Intel Core 2 QX6700 the information looks as in Table 5.1.</p>
 <blockquote>
-<table><thead><tr><th></th><th>type</th><th>level</th><th>shared_cpu_map</th><th></th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th></th><th>type</th><th>level</th><th>shared_cpu_map</th><th></th></tr></thead><tbody>
 <tr><td><code>cpu0</code></td><td>index0</td><td>Data</td><td>1</td><td>00000001</td></tr>
 <tr><td></td><td>index1</td><td>Instruction</td><td>1</td><td>00000001</td></tr>
 <tr><td></td><td>index2</td><td>Unified</td><td>2</td><td>00000003</td></tr>
@@ -996,6 +982,7 @@ Program Headers:
 <tr><td></td><td>index1</td><td>Instruction</td><td>1</td><td>00000008</td></tr>
 <tr><td></td><td>index2</td><td>Unified</td><td>2</td><td>0000000c</td></tr>
 </tbody></table>
+</div>
 <p><strong>Table 5.1: <code>sysfs</code> Information for Core 2 CPU Caches</strong></p>
 </blockquote>
 <p>What this data means is as follows:</p>
@@ -1013,7 +1000,7 @@ Program Headers:
 <p>If the CPU had more cache levels, there would be more <code>index*</code> directories.</p>
 <p>For a four-socket, dual-core Opteron machine the cache information looks like Table 5.2:</p>
 <blockquote>
-<table><thead><tr><th></th><th>type</th><th>level</th><th>shared_cpu_map</th><th></th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th></th><th>type</th><th>level</th><th>shared_cpu_map</th><th></th></tr></thead><tbody>
 <tr><td><code>cpu0</code></td><td>index0</td><td>Data</td><td>1</td><td>00000001</td></tr>
 <tr><td></td><td>index1</td><td>Instruction</td><td>1</td><td>00000001</td></tr>
 <tr><td></td><td>index2</td><td>Unified</td><td>2</td><td>00000001</td></tr>
@@ -1039,6 +1026,7 @@ Program Headers:
 <tr><td></td><td>index1</td><td>Instruction</td><td>1</td><td>00000080</td></tr>
 <tr><td></td><td>index2</td><td>Unified</td><td>2</td><td>00000080</td></tr>
 </tbody></table>
+</div>
 <p><strong>Table 5.2: <code>sysfs</code> Information for Opteron CPU Caches</strong></p>
 </blockquote>
 <p>As can be seen these processors also have three caches: L1i, L1d, L2.  None of the cores shares any level of cache.  The interesting part for this system is the processor topology.  Without this additional information one cannot make sense of the cache data.  The <code>sys</code> file system exposes this information in the files below</p>
@@ -1046,7 +1034,7 @@ Program Headers:
 </code></pre>
 <p>Table 5.3 shows the interesting files in this hierarchy for the SMP Opteron machine.</p>
 <blockquote>
-<table><thead><tr><th></th><th><code>physical_package_id</code></th><th><code>core_id</code></th><th><code>core_siblings</code></th><th><code>thread_siblings</code></th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th></th><th><code>physical_package_id</code></th><th><code>core_id</code></th><th><code>core_siblings</code></th><th><code>thread_siblings</code></th></tr></thead><tbody>
 <tr><td><code>cpu0</code></td><td>0</td><td>0</td><td>00000003</td><td>00000001</td></tr>
 <tr><td><code>cpu1</code></td><td>1</td><td>00000003</td><td>00000002</td><td></td></tr>
 <tr><td><code>cpu2</code></td><td>1</td><td>0</td><td>0000000c</td><td>00000004</td></tr>
@@ -1056,6 +1044,7 @@ Program Headers:
 <tr><td><code>cpu6</code></td><td>3</td><td>0</td><td>000000c0</td><td>00000040</td></tr>
 <tr><td><code>cpu7</code></td><td>1</td><td>000000c0</td><td>00000080</td><td></td></tr>
 </tbody></table>
+</div>
 <p><strong>Table 5.3: <code>sysfs</code> Information for Opteron CPU Topology</strong></p>
 </blockquote>
 <p>Taking Table 5.2 and Table 5.3 together we can see that no CPU has hyper-threads (the <code>thread_siblings</code> bitmaps have one bit set), that the system in fact has four processors (<code>physical_package_id</code> 0 to 3), that each processor has two cores, and that none of the cores share any cache.  This is exactly what corresponds  to earlier Opterons.</p>
@@ -1064,12 +1053,13 @@ Program Headers:
 </code></pre>
 <p>This directory contains a subdirectory for every NUMA node on the system.  In the node-specific directories there are a number of files.  The important files and their content for the Opteron machine described in the previous two tables are shown in Table 5.4.</p>
 <blockquote>
-<table><thead><tr><th></th><th><code>cpumap</code></th><th><code>distance</code></th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th></th><th><code>cpumap</code></th><th><code>distance</code></th></tr></thead><tbody>
 <tr><td><code>node0</code></td><td>00000003</td><td>10 20 20 20</td></tr>
 <tr><td><code>node1</code></td><td>0000000c</td><td>20 10 20 20</td></tr>
 <tr><td><code>node2</code></td><td>00000030</td><td>20 20 10 20</td></tr>
 <tr><td><code>node3</code></td><td>000000c0</td><td>20 20 20 10</td></tr>
 </tbody></table>
+</div>
 <p><strong>Table 5.4: <code>sysfs</code> Information for Opteron Nodes</strong></p>
 </blockquote>
 <p>This information ties all the rest together; now we have a complete picture of the architecture of the machine.  We already know that the machine has four processors.  Each processor constitutes its own node as can be seen by the bits set in the value in <code>cpumap</code> file in the <code>node*</code> directories.  The <code>distance</code> files in those directories contains a set of values, one for each node, which represent a cost of memory accesses at the respective nodes.  In this example all local memory accesses have the cost 10, all remote access to any other node has the cost 20.  {<em>This is, by the way, incorrect.  The ACPI information is apparently wrong since, although the processors used have three coherent HyperTransport links, at least one processor must be connected to a Southbridge.  At least one pair of nodes must therefore have a larger distance.</em>}  This means that, even though the processors are organized as a two-dimensional hypercube (see Figure 5.1), accesses between processors which are not directly connected is not more expensive.  The relative values of the costs should be usable as an estimate of the actual difference of the access times.  The accuracy of all this information is another question.</p>
@@ -1109,7 +1099,7 @@ Program Headers:
 </blockquote>
 <p>To see the effects in the real world we can measure the bandwidth as in Section 3.5.1 but this time with the memory being on a remote node, one hop away.  The result of this test when compared with the data for using local memory can be seen in Figure 5.4.  The numbers have a few big spikes in both directions which are the result of a problem of measuring multi-threaded code and can be ignored.  The important information in this graph is that read operations are always 20% slower.  This is significantly slower than the 9% in Figure 5.3, which is, most likely, not a number for uninterrupted read/write operations and might refer to older processor revisions.  Only AMD knows.</p>
 <p>For working set sizes which fit into the caches, the performance of write and copy operations is also 20% slower.  For working sets exceeding the size of the caches, the write performance is not measurably slower than the operation on the local node.  The speed of the interconnect is fast enough to keep up with the memory.  The dominating factor is the time spent waiting on the main memory.</p>
-<h2 id="6-what-programmers-can-do"><a class="header" href="#6-what-programmers-can-do">6 What Programmers Can Do</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="6-what-programmers-can-do"><a class="header" href="#6-what-programmers-can-do">6 What Programmers Can Do</a></h2>
 <p>After the descriptions in the previous sections it is clear that there are many, many opportunities for programmers to influence a program's performance, positively or negatively.  And this is for memory-related operations only.  We will proceed in covering the opportunities from the ground up, starting with the lowest levels of physical RAM access and L1 caches, up to and including OS functionality which influences memory handling.</p>
 <h3 id="61-bypassing-the-cache"><a class="header" href="#61-bypassing-the-cache">6.1 Bypassing the Cache</a></h3>
 <p>When data is produced and not (immediately) consumed again, the fact that memory store operations read a full cache line first and then modify the cached data is detrimental to performance. This operation pushes data out of the caches which might be needed again in favor of data which will not be used soon.  This is especially true for large data structures, like matrices, which are filled and then used later.  Before the last element of the matrix is filled the sheer size evicts the first elements, making caching of the writes ineffective.</p>
@@ -1157,11 +1147,12 @@ void setbytes(char *p, int c)
 </blockquote>
 <p>We measure the time it takes to initialize a 3000×3000 matrix.  To see how memory behaves, we use store instructions which do not use the cache.  On IA-32 processors the “non-temporal hint” is used for this.  For comparison we also measure ordinary store operations.  The results can be seen in Table 6.1.</p>
 <blockquote>
-<table><thead><tr><th></th><th>Inner Loop Increment</th><th></th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th></th><th>Inner Loop Increment</th><th></th></tr></thead><tbody>
 <tr><td></td><td>Row</td><td>Column</td></tr>
 <tr><td>Normal</td><td>0.048s</td><td>0.127s</td></tr>
 <tr><td>Non-Temporal</td><td>0.048s</td><td>0.160s</td></tr>
 </tbody></table>
+</div>
 <p><strong>Table 6.1: Timing Matrix Initialization</strong></p>
 </blockquote>
 <p>For the normal writes which do use the cache we see the expected result: if memory is used sequentially we get a much better result, 0.048s for the whole operation translating to about 750MB/s, compared to the more-or-less random access which takes 0.127s (about 280MB/s). The matrix is large enough that the caches are essentially ineffective.</p>
@@ -1211,11 +1202,11 @@ __m128i _mm_stream_load_si128 (__m128i *p);
 </blockquote>
 <p>We create a temporary variable to contain the transposed matrix.  This requires touching more memory, but this cost is, hopefully, recovered since the 1000 non-sequential accesses per column are more expensive (at least on modern hardware).  Time for some performance tests.  The results on a Intel Core 2 with 2666MHz clock speed are (in clock cycles):</p>
 <blockquote>
-<table><thead><tr><th></th><th>Original</th><th>Transposed</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th></th><th>Original</th><th>Transposed</th></tr></thead><tbody>
 <tr><td>Cycles</td><td>16,765,297,870</td><td>3,922,373,010</td></tr>
 <tr><td>Relative</td><td>100%</td><td>23.4%</td></tr>
 </tbody></table>
-</blockquote>
+</div></blockquote>
 <p>Through the simple transformation of the matrix we can achieve a 76.6% speed-up!  The copy operation is more than made up.  The 1000 non-sequential accesses really hurt.</p>
 <p>The next question is whether this is the best we can do.  We certainly need an alternative method anyway which does not require the additional copy.  We will not always have the luxury to be able to perform the copy: the matrix can be too large or the available memory too small.</p>
 <p>The search for an alternative implementation should start with a close examination of the math involved and the operations performed by the original implementation.  Trivial math knowledge allows us to see that the order in which the additions for each element of the result matrix are performed is irrelevant as long as each addend appears exactly once. {<em>We ignore arithmetic effects here which might change  the occurrence of overflows, underflows, or rounding.</em>}  This understanding allows us to look for solutions which reorder the additions performed in the inner loop of the original code.</p>
@@ -1250,10 +1241,11 @@ __m128i _mm_stream_load_si128 (__m128i *p);
 <p>The rest of the complication here results from the fact that gcc is not very smart when it comes to optimizing array indexing.  The introduction of the additional variables <code>rres</code>, <code>rmul1</code>, and <code>rmul2</code> optimizes the code by pulling common expressions out of the inner loops, as far down as possible.  The default aliasing rules of the C and C++ languages do not help the compiler making these decisions (unless <code>restrict</code> is used, all pointer accesses are potential sources of aliasing).  This is why Fortran is still a preferred language for numeric programming: it makes writing fast code easier. {<em>In theory the <code>restrict</code> keyword introduced into the C language in the 1999 revision should solve the problem. Compilers have not caught up yet, though.  The reason is mainly that too much incorrect code exists which would mislead the compiler and cause it to generate incorrect object code.</em>}</p>
 <p>How all this work pays off can be seen in Table 6.2.</p>
 <blockquote>
-<table><thead><tr><th></th><th>Original</th><th>Transposed</th><th>Sub-Matrix</th><th>Vectorized</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th></th><th>Original</th><th>Transposed</th><th>Sub-Matrix</th><th>Vectorized</th></tr></thead><tbody>
 <tr><td>Cycles</td><td>16,765,297,870</td><td>3,922,373,010</td><td>2,895,041,480</td><td>1,588,711,750</td></tr>
 <tr><td>Relative</td><td>100%</td><td>23.4%</td><td>17.3%</td><td>9.47%</td></tr>
 </tbody></table>
+</div>
 <p><strong>Table 6.2: Matrix Multiplication Timing</strong></p>
 </blockquote>
 <p>By avoiding the copying we gain another 6.1% of performance. Plus, we do not need any additional memory.  The input matrices can be arbitrarily large as long as the result matrix fits into memory as well.  This is a requirement for a general solution which we have now achieved.</p>
@@ -1430,9 +1422,10 @@ This method does not work for arrays, though.  Only the first  element of the ar
 <p>Compilers have options to enable levels of optimization; specific optimizations can also be individually enabled.  Many of the optimizations enabled at high optimization levels (-O2 and -O3 for gcc) deal with loop optimizations and function inlining.  In general, these are good optimizations.  If the code which is optimized in these ways accounts for a significant part of the total execution time of the program, overall performance can be improved.  Inlining of functions, in particular, allows the compiler to optimize larger chunks of code at a time which, in turn, enables the generation of machine code which better exploits the processor's pipeline architecture.  The handling of both code and data (through dead code elimination or value range propagation, and others) works better when larger parts of the program can be considered as a single unit.</p>
 <p>A larger code size means higher pressure on the L1i (and also L2 and higher level) caches.  This <em>can</em> lead to less performance. Smaller code can be faster.  Fortunately gcc has an optimization option to specify this.  If -Os is used the compiler will optimize for code size.  Optimizations which are known to increase the code size are disabled.  Using this option often produces surprising results. Especially if the compiler cannot really take advantage of loop unrolling and inlining, this option is a big win.</p>
 <p>Inlining can be controlled individually as well.  The compiler has heuristics and limits which guide inlining; these limits can be controlled by the programmer.  The -finline-limit option specifies how large a function must be to be considered too large for inlining.  If a function is called in multiple places, inlining it in all of them would cause an explosion in the code size.  But there is more.  Assume a function <code>inlcand</code> is called in two functions <code>f1</code> and <code>f2</code>.  The functions <code>f1</code> and <code>f2</code> are themselves called in sequence.</p>
-<table><thead><tr><th>With inlining</th><th></th><th>Without inlining</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>With inlining</th><th></th><th>Without inlining</th></tr></thead><tbody>
 <tr><td><code>start f1  code f1  inlined inlcand  more code f1 end f1 start f2  code f2  inlined inlcand  more code f2 end f2 </code></td><td></td><td><code>start inlcand  code inlcand end inlcand start f1  code f1 end f1 start f2  code f2 end f2 </code></td></tr>
 </tbody></table>
+</div>
 <p><strong>Table 6.3: Inlining Vs Not</strong>Table 6.3 shows how the generated code could look like in the cases of no inline and inlining in both functions.  If the function <code>inlcand</code> is inlined in both <code>f1</code> and <code>f2</code> the total size of the generated code is:</p>
 <blockquote>
 <p>size <code>f1</code> + size <code>f2</code> + 2 × size <code>inlcand</code></p>
@@ -1668,16 +1661,17 @@ ssize_t NUMA_cpu_level_mask(size_t destsize,
 <p>The network I/O hardware already has DMA to write the packet.  That means it communicates directly with the memory controller which potentially is integrated in the Northbridge.  Another side of the memory controller is the interface to the processors through the FSB (assuming the memory controller is not integrated into the CPU itself).</p>
 <p>The idea behind Direct Cache Access (DCA) is to extend the protocol between the NIC and the memory controller.  In Figure 6.9 the first figure shows the beginning of the DMA transfer in a regular machine with North- and Southbridge.</p>
 <blockquote>
-<table><thead><tr><th><img src="cpu-memory/assets/cpumemory.54.png" alt="img" /></th><th><img src="cpu-memory/assets/cpumemory.55.png" alt="img" /></th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th><img src="cpu-memory/assets/cpumemory.54.png" alt="img" /></th><th><img src="cpu-memory/assets/cpumemory.55.png" alt="img" /></th></tr></thead><tbody>
 <tr><td>DMA Initiated</td><td>DMA and DCA Executed</td></tr>
 </tbody></table>
+</div>
 <p><strong>Figure 6.9: Direct Cache Access</strong></p>
 </blockquote>
 <p>The NIC is connected to (or is part of) the Southbridge.  It initiates the DMA access but provides the new information about the packet header which should be pushed into the processor's cache.</p>
 <p>The traditional behavior would be, in step two, to simply complete the DMA transfer with the connection to the memory.  For the DMA transfers with the DCA flag set the Northbridge additionally sends the data on the FSB with a special, new DCA flag.  The processor always snoops the FSB and, if it recognizes the DCA flag, it tries to load the data directed to the processor into the lowest cache.  The DCA flag is, in fact, a hint; the processor can freely ignore it. After the DMA transfer is finished the processor is signaled.</p>
 <p>The OS, when processing the packet, first has to determine what kind of packet it is.  If the DCA hint is not ignored, the loads the OS has to perform to identify the packet most likely hit the cache.  Multiply this saving of hundreds of cycles per packet with tens of thousands of packets which can be processed per second, and the savings add up to very significant numbers, especially when it comes to latency.</p>
 <p>Without the integration of I/O hardware (NIC in this case), chipset, and CPUs such an optimization is not possible.  It is therefore necessary to make sure to select the platform wisely if this technology is needed.</p>
-<h3 id="64-multi-thread-optimizations"><a class="header" href="#64-multi-thread-optimizations">6.4 Multi-Thread Optimizations</a></h3>
+<div style="break-before: page; page-break-before: always;"></div><h3 id="64-multi-thread-optimizations"><a class="header" href="#64-multi-thread-optimizations">6.4 Multi-Thread Optimizations</a></h3>
 <p>When it comes to multi-threading, there are three different aspects of cache use which are important:</p>
 <ul>
 <li>Concurrency</li>
@@ -1791,28 +1785,29 @@ ssize_t NUMA_cpu_level_mask(size_t destsize,
 <p>Here we have to use a special load instruction (<code>LL</code>) and we do not have to pass the current value of the memory location to <code>SC</code> since the processor knows if the memory location has been modified in the meantime.</p>
 <p>The big differentiators are x86 and x86-64 where we have the atomic operations and, here, it is important to select the proper atomic operation to achieve the best result.  Figure 6.12 shows three different ways to implement an atomic increment operation.</p>
 <blockquote>
-<table><thead><tr><th><code>   for (i = 0; i &lt; N; ++i)      __sync_add_and_fetch(&amp;var,1);</code> <strong>1. Add and Read Result</strong></th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th><code>   for (i = 0; i &lt; N; ++i)      __sync_add_and_fetch(&amp;var,1);</code> <strong>1. Add and Read Result</strong></th></tr></thead><tbody>
 <tr><td><code>   for (i = 0; i &lt; N; ++i)      __sync_fetch_and_add(&amp;var,1);</code> <strong>2. Add and Return Old Value</strong></td></tr>
 <tr><td><code>   for (i = 0; i &lt; N; ++i) {      long v, n;      do {        v = var;        n = v + 1;      } while (!__sync_bool_compare_and_swap(&amp;var, v, n));    }</code> <strong>3. Atomic Replace with New Value</strong></td></tr>
 </tbody></table>
+</div>
 <p><strong>Figure 6.12: Atomic Increment in a Loop</strong></p>
 </blockquote>
 <p>All three produce different code on x86 and x86-64 while the code might be identical on other architectures.  There are huge performance differences.  The following table shows the execution time for 1 million increments by four concurrent threads.  The code uses the built-in primitives of gcc (<code>__sync_</code>*).</p>
 <blockquote>
-<table><thead><tr><th>1. Exchange Add</th><th>2. Add Fetch</th><th>3. CAS</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>1. Exchange Add</th><th>2. Add Fetch</th><th>3. CAS</th></tr></thead><tbody>
 <tr><td>0.23s</td><td>0.21s</td><td>0.73s</td></tr>
 </tbody></table>
-</blockquote>
+</div></blockquote>
 <p>The first two numbers are similar; we see that returning the old value is a little bit faster.  The important piece of information is the highlighted field, the cost when using CAS. It is, unsurprisingly, a lot more expensive. There are several reasons for this: 1. there are two memory operations, 2. the CAS operation by itself is more complicated and requires even conditional operation, and 3. the whole operation has to be done in a loop in case two concurrent accesses cause a CAS call to fail.</p>
 <p>Now a reader might ask a question: why would somebody use the complicated and longer code which utilizes CAS? The answer to this is: the complexity is usually hidden.  As mentioned before, CAS is currently the unifying atomic operation across all interesting architectures.  So some people think it is sufficient to define all atomic operations in terms of CAS.  This makes programs simpler. But as the numbers show, the results can be everything but optimal. The memory handling overhead of the CAS solution is huge.  The following illustrates the execution of just two threads, each on its own core.</p>
 <blockquote>
-<table><thead><tr><th>Thread #1</th><th>Thread #2</th><th><code>var</code> Cache State</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Thread #1</th><th>Thread #2</th><th><code>var</code> Cache State</th></tr></thead><tbody>
 <tr><td><code>v = var</code></td><td></td><td>‘E’ on Proc 1</td></tr>
 <tr><td><code>n = v + 1</code></td><td><code>v = var</code></td><td>‘S’ on Proc 1+2</td></tr>
 <tr><td>CAS(<code>var</code>)</td><td><code>n = v + 1</code></td><td>‘E’ on Proc 1</td></tr>
 <tr><td></td><td>CAS(<code>var</code>)</td><td>‘E’ on Proc 2</td></tr>
 </tbody></table>
-</blockquote>
+</div></blockquote>
 <p>We see that, within this short period of execution, the cache line status changes at least three times; two of the changes are RFOs. Additionally, the second CAS will fail, so that thread has to repeat the whole operation.  During that operation the same can happen again.</p>
 <p>In contrast, when the atomic arithmetic operations are used, the processor can keep the load and store operations needed to perform the addition (or whatever) together.  It can ensure that concurrently-issued cache line requests are blocked until the atomic operation is done. Each loop iteration in the example therefore results in, at most, one RFO cache request and nothing else.</p>
 <p>What all this means is that it is crucial to define the machine abstraction at a level at which atomic arithmetic and logic operations can be utilized.  CAS should not be universally used as the unification mechanism.</p>
@@ -2150,7 +2145,7 @@ void worker(void) {
 <p><strong>6.5.8 Utilizing All Bandwidth</strong></p>
 <p>The numbers in Figure 5.4 show that access to remote memory when the caches are ineffective is not measurably slower than access to local memory.  This means a program could possibly save bandwidth to the local memory by writing data it does not have to read again into memory attached to another processor. The bandwidth of the connection to the DRAM modules and the bandwidth of the interconnects are mostly independent, so parallel use could improve overall performance.</p>
 <p>Whether this is really possible depends on many factors.  One really has to be sure that caches are ineffective since otherwise the slowdown related to remote accesses is measurable.  Another big problem is whether the remote node has any needs for its own memory bandwidth.  This possibility must be examined in detail before the approach is taken.  In theory, using all the bandwidth available to a processor can have positive effects.  A family 10h Opteron processor can be directly connected to up to four other processors.  Utilizing all that additional bandwidth, perhaps coupled with appropriate prefetches (especially <code>prefetchw</code>) could lead to improvements if the rest of the system plays along.</p>
-<h2 id="7-memory-performance-tools"><a class="header" href="#7-memory-performance-tools">7 Memory Performance Tools</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="7-memory-performance-tools"><a class="header" href="#7-memory-performance-tools">7 Memory Performance Tools</a></h2>
 <p>A wide variety of tools is available to help programmers understand the cache and memory use of a program.  Modern processors have performance monitoring hardware that can be used.  Some events are hard to measure exactly, so there is also room for simulation.  When it comes to higher-level functionality, there are special tools to monitor the execution of a process.  We will introduce a set of commonly used tools available on most Linux systems.</p>
 <h3 id="71-memory-operation-profiling"><a class="header" href="#71-memory-operation-profiling">7.1 Memory Operation Profiling</a></h3>
 <p>Profiling memory operations requires collaboration from the hardware. It is possible to gather some information in software alone, but this is either coarse-grained or merely a simulation.  Examples of simulation will be shown in Section 7.2 and Section 7.5.  Here we will concentrate on measurable memory effects.</p>
@@ -2180,11 +2175,11 @@ void worker(void) {
 <p>The fourth line in both graphs is the DTLB miss rate (Intel has separate TLBs for code and data, DTLB is the data TLB).  For the random access case, the DTLB miss rate is significant and contributes to the delays.  What is interesting is that the DTLB penalties set in before the L2 misses.  For the sequential access case the DTLB costs are basically zero.</p>
 <p>Going back to the matrix multiplication example in Section 6.2.1 and the example code in Section 9.1, we can make use of three more counters.  The <code>SSE_PRE_MISS</code>, <code>SSE_PRE_EXEC</code>, and <code>LOAD_HIT_PRE</code> counters can be used to see how effective the software prefetching is.  If the code in Section 9.1 is run we get the following results:</p>
 <blockquote>
-<table><thead><tr><th>Description</th><th>Ratio</th></tr></thead><tbody>
+<div class="table-wrapper"><table><thead><tr><th>Description</th><th>Ratio</th></tr></thead><tbody>
 <tr><td>Useful NTA prefetches</td><td>2.84%</td></tr>
 <tr><td>Late NTA prefetches</td><td>2.65%</td></tr>
 </tbody></table>
-</blockquote>
+</div></blockquote>
 <p>The low useful NTA (non-temporal aligned) prefetch ratio indicates that many prefetch instructions are executed for cache lines which are already loaded, so no work is needed.  This means the processor wastes time to decode the prefetch instruction and look up the cache. One cannot judge the code too harshly, though. Much depends on the size of the caches of the processor used; the hardware prefetcher also plays a role.</p>
 <p>The low late NTA prefetch ratio is misleading.  The ratio means that 2.65% of all prefetch instructions are issued too late.  The instruction which needs the data is executed before the data could be prefetched into the cache.  It must be kept in mind that only 2.84%+2.65%=5.5% of the prefetch instructions were of any use.  Of the NTA prefetch instructions which are useful, 48% did not finish in time.  The code therefore can be optimized further:</p>
 <ul>
@@ -2429,7 +2424,7 @@ void *a = mmap(NULL, LENGTH, PROT_READ|PROT_WRITE, fd, 0);
 <p>After this point, the winnings are initially smaller but grow again with increasing working set size.  The huge pages test is 38% faster for the 512MB working set size.  The curve for the huge page test has a plateau at around 250 cycles.  Beyond working sets of 227 bytes, the numbers rise significantly again.  The reason for the plateau is that 64 TLB entries for 2MB pages cover 227 bytes.</p>
 <p>As these numbers show, a large part of the costs of using large working set sizes comes from TLB misses.  Using the interfaces described in this section can pay off big-time. The numbers in the graph are, most likely, upper limits, but even real-world programs show a significant speed-up.  Databases, since they use large amounts of data, are among the programs which use huge pages today.</p>
 <p>There is currently no way to use large pages to map file-backed data. There is interest in implementing this capability, but the proposals made so far all involve explicitly using large pages, and they rely on the <code>hugetlbfs</code> filesystem. This is not acceptable: large page use in this case must be transparent.  The kernel can easily determine which mappings are large and automatically use large pages.  A big problem is that the kernel does not always know about the use pattern.  If the memory, which could be mapped as a large page, later requires 4k-page granularity (for instance, because the protection of parts of the memory range is changed using <code>mprotect</code>) a lot of precious resources, in particular the linear physical memory, will have been wasted. So it will certainly be some more time before such an approach is successfully implemented.</p>
-<h2 id="8-upcoming-technology"><a class="header" href="#8-upcoming-technology">8 Upcoming Technology</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="8-upcoming-technology"><a class="header" href="#8-upcoming-technology">8 Upcoming Technology</a></h2>
 <p>In the preceding sections about multi-processor handling we have seen that significant performance problems must be expected if the number of CPUs or cores is scaled up. But this scaling-up is exactly what has to be expected in the future. Processors will get more and more cores, and programs must be ever more parallel to take advantage of the increased potential of the CPU, since single-core performance will not rise as quickly as it used to.</p>
 <h3 id="81-the-problem-with-atomic-operations"><a class="header" href="#81-the-problem-with-atomic-operations">8.1 The Problem with Atomic Operations</a></h3>
 <p>Synchronizing access to shared data structures is traditionally done in two ways:</p>
@@ -2672,9 +2667,7 @@ void *a = mmap(NULL, LENGTH, PROT_READ|PROT_WRITE, fd, 0);
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                        
 
-                        
 
                         <div style="clear: both"></div>
                     </nav>
@@ -2682,49 +2675,35 @@ void *a = mmap(NULL, LENGTH, PROT_READ|PROT_WRITE, fd, 0);
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                
 
-                
             </nav>
 
         </div>
 
-        
 
-        
 
-        
 
-        
-        <script type="text/javascript">
+        <script>
             window.playground_copyable = true;
         </script>
-        
 
-        
 
-        
-        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
-        
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
 
         <!-- Custom JS scripts -->
-        
 
-        
-        
-        <script type="text/javascript">
+        <script>
         window.addEventListener('load', function() {
             window.setTimeout(window.print, 100);
         });
         </script>
-        
-        
 
+    </div>
     </body>
 </html>
