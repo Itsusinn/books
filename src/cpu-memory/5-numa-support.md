@@ -1,28 +1,28 @@
-## 5 NUMA Support
+## 5 NUMA 支持
 
-In Section 2 we saw that, on some machines, the cost of access to specific regions of physical memory differs depending on where the access originated.  This type of hardware requires special care from the OS and the applications.  We will start with a few details of NUMA hardware, then we will cover some of the support the Linux kernel provides for NUMA.
+在第二部分中，我们看到在某些机器上，访问物理内存特定区域的成本取决于访问的来源。这种类型的硬件需要操作系统和应用程序特别注意。我们将从 NUMA 硬件的一些细节开始，然后再介绍 Linux 内核为 NUMA 提供的一些支持。
 
 ### 5.1 NUMA Hardware
 
-Non-uniform memory architectures are becoming more and more common. In the simplest form of NUMA, a processor can have local memory (see Figure 2.3) which is cheaper to access than memory local to other processors.  The difference in cost for this type of NUMA system is not high, i.e., the NUMA factor is low.
+非均匀内存体系结构越来越普遍。在最简单的 NUMA 形式中，处理器可以具有本地内存（参见图2.3），其访问成本比其他处理器本地内存要便宜。这种类型的 NUMA 系统的成本差异并不高，即 NUMA 因子很低。
 
-NUMA is also—and especially—used in big machines.  We have described the problems of having many processors access the same memory.  For commodity hardware all processors would share the same Northbridge (ignoring the AMD Opteron NUMA nodes for now, they have their own problems).  This makes the Northbridge a severe bottleneck since *all* memory traffic is routed through it.  Big machines can, of course, use custom hardware in place of the Northbridge but, unless the memory chips used have multiple ports—i.e. they can be used from multiple busses—there still is a bottleneck.  Multiport RAM is complicated and expensive to build and support and, therefore, it is hardly ever used.
+NUMA 还特别用于大型机器。我们已经描述了许多处理器访问同一内存所带来的问题。对于商用硬件，所有处理器都将共享同一个北桥（暂不考虑 AMD Opteron NUMA 节点，它们有自己的问题）。这使得北桥成为一个严重的瓶颈，因为所有内存流量都通过它进行路由。当然，大型机器可以使用自定义硬件代替北桥，但是，除非使用的内存芯片具有多个端口，即它们可以从多个总线中使用，否则仍然存在瓶颈。多端口 RAM 很复杂，成本很高，因此几乎不会使用。
 
-The next step up in complexity is the model AMD uses where an interconnect mechanism (Hypertransport in AMD's case, technology they licensed from Digital) provides access for processors which are not directly connected to the RAM.  The size of the structures which can be formed this way is limited unless one wants to increase the diameter (i.e., the maximum distance between any two nodes) arbitrarily.
+复杂度的下一个增加是 AMD 使用的模型，其中一种互连机制（在 AMD 的情况下是 Hypertransport，这是他们从 Digital 获得许可的技术）为未直接连接到 RAM 的处理器提供访问。这种方式可以形成的结构的大小受到限制，除非想任意增加直径（即任意两个节点之间的最大距离）。
 
 > ![img](assets/cpumemory.20.png)
 >
 > **Figure 5.1: Hypercubes**
 
-An efficient topology for the nodes is the hypercube, which limits the number of nodes to 2C where C is the number of interconnect  interfaces each node has.  Hypercubes have the smallest diameter for all systems with 2n CPUs.  Figure 5.1 shows the first  three hypercubes.  Each hypercube has a diameter of C which is the  absolute minimum.  AMD's first-generation Opteron processors have three hypertransport links per processor.  At least one of the processors has to have a Southbridge attached to one link, meaning, currently, that a hypercube with C=2 can be implemented directly and efficiently.  The next generation is announced to have four links, at which point C=3 hypercubes will be possible.
+高效的节点拓扑结构是超立方体，它将节点数限制为2C，其中C是每个节点的互连接口数。对于所有带有2n个CPU的系统，超立方体具有最小的直径。图5.1显示了前三个超立方体。每个超立方体的直径为C，这是绝对最小的。AMD的第一代Opteron处理器每个处理器有三个HyperTransport连接。至少有一个处理器必须连接一个Southbridge，这意味着目前可以直接且高效地实现C=2的超立方体。下一代处理器宣布将有四个连接，到那时C=3的超立方体将成为可能。
 
-This does not mean, though, that larger accumulations of processors cannot be supported.  There are companies which have developed crossbars allowing larger sets of processors to be used (e.g., Newisys's Horus).  But these crossbars increase the NUMA factor and they stop being effective at a certain number of processors.
+但这并不意味着不支持更大的处理器积累。一些公司已经开发了交叉开关，允许使用更大的处理器集合（例如Newisys的Horus）。但是这些交叉开关会增加NUMA因素，并且在一定数量的处理器上不再有效。
 
-The next step up means connecting groups of CPUs and implementing a shared memory for all of them.  All such systems need specialized hardware and are by no means commodity systems.  Such designs exist at several levels of complexity.  A system which is still quite close to a commodity machine is IBM x445 and similar machines.  They can be bought as ordinary 4U, 8-way machines with x86 and x86-64 processors. Two (at some point up to four) of these machines can then be connected to work as a single machine with shared memory.  The interconnect used introduces a significant NUMA factor which the OS, as well as applications, must take into account.
+下一步是连接CPU组并为它们实现共享内存。所有这样的系统都需要专用硬件，绝不是商品系统。这样的设计存在多个复杂度级别。一个仍然非常接近商品机的系统是IBM x445和类似的机器。它们可以作为普通的4U，8路机器购买，带有x86和x86-64处理器。然后可以将两个（在某些时候最多四个）这样的机器连接起来，以共享内存的方式作为一个单一的机器。所使用的互连引入了一个显著的NUMA因素，这是操作系统以及应用程序必须考虑的。
 
-At the other end of the spectrum, machines like SGI's Altix are designed specifically to be interconnected.  SGI's NUMAlink interconnect fabric is very fast and has a low latency; both of these are requirements for high-performance computing (HPC), especially when Message Passing Interfaces (MPI) are used.  The drawback is, of course, that such sophistication and specialization is very expensive.  They make a reasonably low NUMA factor possible but with the number of CPUs these machines can have (several thousands) and the limited capacity of the interconnects, the NUMA factor is actually dynamic and can reach unacceptable levels depending on the workload.
+在另一端的系统中，像SGI的Altix就是专门设计用于互连。SGI的NUMAlink互连结构非常快且延迟低，这些都是高性能计算（HPC）的要求，特别是当使用消息传递接口（MPI）时。缺点当然是这种复杂性和专业化非常昂贵。它们可以实现相对较低的NUMA因素，但由于这些机器可以拥有数千个CPU并且互连的容量有限，NUMA因素实际上是动态的，取决于工作负载而可能达到不可接受的水平。
 
-More commonly used are solutions where clusters of commodity machines are connected using high-speed networking.  But these are not NUMA machines; they do not implement a shared address space and therefore do not fall into any category which is discussed here.
+更常见的解决方案是使用高速网络连接商品机集群。但这些不是NUMA机器；它们不实现共享地址空间，因此不属于本文讨论的任何类别。
 
 ### 5.2 OS Support for NUMA
 
