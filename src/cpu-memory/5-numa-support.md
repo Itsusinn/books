@@ -26,29 +26,27 @@ NUMA 还特别用于大型机器。我们已经描述了许多处理器访问同
 
 ### 5.2 OS Support for NUMA
 
-To support NUMA machines, the OS has to take the distributed nature of the memory into account.  For instance, if a process is run on a given processor, the physical RAM assigned to the process's address space should come from local memory.  Otherwise each instruction has to access remote memory for code and data.  There are special cases to be taken into account which are only present in NUMA machines.  The text segment of DSOs is normally present exactly once in a machine's physical RAM.  But if the DSO is used by processes and threads on all CPUs (for instance, the basic runtime libraries like `libc`) this means that all but a few processors have to have remote accesses.  The OS ideally would “mirror” such DSOs into each processor's physical RAM and use local copies.  This is an optimization, not a requirement, and generally hard to implement.  It might not be supported or only in a limited fashion.
+为了支持NUMA机器，操作系统必须考虑内存的分布性质。例如，如果在给定的处理器上运行一个进程，则分配给该进程地址空间的物理RAM应来自本地内存。否则，每个指令都必须访问远程内存以获取代码和数据。在NUMA机器中存在需要考虑的特殊情况。DSO的文本段通常仅存在于一台机器的物理RAM中。但是，如果DSO由所有CPU上的进程和线程使用（例如基本运行库如libc），这意味着除了少数处理器外，其他处理器都必须具有远程访问。理想情况下，操作系统应该将这些DSO“镜像”到每个处理器的物理RAM中，并使用本地副本。这是一种优化而不是要求，并且通常难以实现。它可能不被支持或仅以有限的方式支持。
 
-To avoid making the situation worse, the OS should not migrate a process or thread from one node to another.  The OS should already try to avoid migrating processes on normal multi-processor machines because migrating from one processor to another means the cache content is lost.  If load distribution requires migrating a process or thread off of a processor, the OS can usually pick an arbitrary new processor which has sufficient capacity left.  In NUMA environments the selection of the new processor is a bit more limited.  The newly selected processor should not have higher access costs to the memory the process is using than the old processor; this restricts the list of targets.  If there is no free processor matching that criteria available, the OS has no choice but to migrate to a processor where memory access is more expensive.
+为避免情况恶化，操作系统不应将进程或线程从一个节点迁移至另一个节点。在普通的多处理器机器上，操作系统已经尝试避免迁移进程，因为从一个处理器迁移到另一个处理器意味着缓存内容会丢失。如果负载分配需要将进程或线程从处理器迁移，操作系统通常可以选择具有足够剩余容量的任意新处理器。在NUMA环境中，选择新处理器的范围略有限制。新选择的处理器不应该比旧处理器更高地访问进程正在使用的内存，这限制了可选目标列表。如果没有可用满足该标准的空闲处理器，则操作系统别无选择，只能迁移到访问内存更昂贵的处理器。
 
-In this situation there are two possible ways forward.  First, one can hope the situation is temporary and the process can be migrated back to a better-suited processor.  Alternatively, the OS can also migrate the process's memory to physical pages which are closer to the newly-used processor. This is quite an expensive operation.  Possibly huge amounts of memory have to be copied, albeit not necessarily in one step.  While this is happening the process, at least briefly, has to be stopped so that modifications to the old pages are correctly migrated.  There are a whole list of other requirements for page migration to be efficient and fast.  In short, the OS should avoid it unless it is really necessary.
+在这种情况下，有两种可能的方法。首先，可以希望情况是暂时的，并且进程可以迁回到更合适的处理器。或者，操作系统也可以将进程的内存迁移到更靠近新使用的处理器的物理页面。这是一项非常昂贵的操作。可能需要复制大量的内存，尽管不一定在一步完成。在此过程中，进程至少要被暂停，以便正确迁移旧页面的修改。还有一系列其他要求，以使页面迁移高效快速。简而言之，除非确实需要，否则操作系统应该避免进行此操作。
 
-Generally, it cannot be assumed that all processes on a NUMA machine use the same amount of memory such that, with the distribution of processes across the processors, memory usage is also equally distributed.  In fact, unless the applications running on the machines are very specific (common in the HPC world, but not outside) the memory use will be very unequal.  Some applications will use vast amounts of memory, others hardly any.  This will, sooner or later, lead to problems if memory is always allocated local to the processor where the request is originated.  The system will eventually run out of memory local to nodes running large processes.
+通常情况下，Linux内核不会假设所有在NUMA机器上运行的进程都使用相同数量的内存，因此在进程分布在不同处理器上的情况下，内存使用情况也是不平衡的。实际上，除非在HPC领域等特定应用中，运行在机器上的应用程序所使用的内存将会非常不平衡。一些应用程序会使用大量的内存，而其他应用程序则几乎不使用内存。如果总是将内存分配到发出请求的处理器上，这将最终导致问题。当运行大型进程的节点内存不足时，系统将出现问题。
 
-In response to these severe problems, memory is, by default, not allocated exclusively on the local node.  To utilize all the system's memory the default strategy is to stripe the memory.  This guarantees equal use of all the memory of the system.  As a side effect, it becomes possible to freely migrate processes between processors since, on average, the access cost to all the memory used does not change.  For small NUMA factors, striping is acceptable but still not optimal (see data in Section 5.4).
+为了应对这些严重的问题，默认情况下不会仅在本地节点上分配内存。为了利用系统的所有内存， 默认策略是将内存分割成多个条带。这可以保证所有系统内存的使用是均衡的。副作用是可以在处理器之间自由迁移进程，因为平均而言，所有使用的内存的访问成本都不会改变。对于小的NUMA因子，分条是可以接受但仍不是最优的（请参见第5.4节中的数据）。
 
-This is a pessimization which helps the system avoid severe problems and  makes it more predictable under normal operation.  But it does decrease overall system performance, in some situations significantly. This is why Linux allows the memory allocation rules to be selected by each process.  A process can select a different strategy for itself and its children.  We will introduce the interfaces which can be used for this in Section 6.
-
-
+这是一种负优化，有助于系统避免严重问题并使其在正常操作下更可预测。但是，它确实降低了整个系统的性能，在某些情况下甚至会显著降低。这就是为什么Linux允许每个进程选择内存分配规则。进程可以为自身及其子进程选择不同的策略。我们将在第6节中介绍可以用于此的接口。
 
 ### 5.3 Published Information
 
-The kernel publishes, through the `sys` pseudo file system (sysfs), information about the processor caches below
+内核通过 sys 伪文件系统（sysfs）发布有关处理器缓存的信息，其路径如下：
 
 ```
 /sys/devices/system/cpu/cpu*/cache
 ```
 
-In Section 6.2.1 we will see interfaces which can be used to query the size of the various caches.  What is important here is the topology of the caches.  The directories above contain subdirectories (named `index*`) which list information about the various caches the CPU possesses.  The files `type`, `level`, and `shared_cpu_map` are the important files in these directories as far as the topology is concerned.  For an Intel Core 2 QX6700 the information looks as in Table 5.1.
+在第6.2.1节中，我们将了解可用于查询各种缓存大小的接口。这里重要的是缓存的拓扑结构。上面的目录包含子目录（命名为 index *），列出 CPU 拥有的各种缓存的信息。对于拓扑结构而言，文件 type、level 和 shared_cpu_map 是这些目录中的重要文件。对于 Intel Core 2 QX6700，其信息如表5.1所示。
 
 
 
@@ -69,19 +67,17 @@ In Section 6.2.1 we will see interfaces which can be used to query the size of t
 >
 > **Table 5.1: `sysfs` Information for Core 2 CPU Caches**
 
-What this data means is as follows:
+这些数据的含义如下：
 
--  Each core {The knowledge that `cpu0` to `cpu3`  are cores comes from another place that will be explained shortly.}  has three caches: L1i, L1d, L2.
+-  每个核心 {cpu0到cpu3是核心的信息来自另一个即将介绍的地方。} 有三个缓存：L1i，L1d，L2。
 
--  The L1d and L1i caches are not shared with anybody—each core  has its own set of caches.  This is indicated by the bitmap  in shared_cpu_maphaving only one set bit.
+-  L1d和L1i缓存不与任何人共享，每个核心都有自己的缓存集。这通过在shared_cpu_map位图中只有一个置位来表示。
 
--  The L2 cache on `cpu0` and `cpu1` is shared, as is the  L2 on `cpu2` and `cpu3`.
+-  cpu0和cpu1的L2缓存是共享的，cpu2和cpu3的L2也是共享的。
 
-If the CPU had more cache levels, there would be more `index*` directories.
+如果CPU有更多的缓存级别，将会有更多的index*目录。
 
-For a four-socket, dual-core Opteron machine the cache information looks like Table 5.2:
-
-
+对于一个双核Opteron机器，它有四个插槽，缓存信息如表5.2所示：
 
 > |        | type        | level | shared_cpu_map |          |
 > | ------ | ----------- | ----- | -------------- | -------- |
@@ -112,15 +108,13 @@ For a four-socket, dual-core Opteron machine the cache information looks like Ta
 >
 > **Table 5.2: `sysfs` Information for Opteron CPU Caches**
 
-  As can be seen these processors also have three caches: L1i, L1d, L2.  None of the cores shares any level of cache.  The interesting part for this system is the processor topology.  Without this additional information one cannot make sense of the cache data.  The `sys` file system exposes this information in the files below
-
-
+正如可以看到的那样，这些处理器也有三个缓存：L1i、L1d和L2。没有任何一个核心共享任何一级缓存。对于这个系统来说，有趣的部分是处理器拓扑结构。如果没有这些额外的信息，就无法理解缓存数据。sys文件系统通过以下文件公开了这些信息。
 
 ```
     /sys/devices/system/cpu/cpu*/topology
 ```
 
-Table 5.3 shows the interesting files in this hierarchy for the SMP Opteron machine.
+表格5.3展示了SMP Opteron机器在这个层次结构中的有趣文件。
 
 
 
@@ -137,18 +131,14 @@ Table 5.3 shows the interesting files in this hierarchy for the SMP Opteron mach
 >
 > **Table 5.3: `sysfs` Information for Opteron CPU Topology**
 
-Taking Table 5.2 and Table 5.3 together we can see that no CPU has hyper-threads (the `thread_siblings` bitmaps have one bit set), that the system in fact has four processors (`physical_package_id` 0 to 3), that each processor has two cores, and that none of the cores share any cache.  This is exactly what corresponds  to earlier Opterons.
+将表5.2和表5.3结合起来，我们可以看到没有任何CPU具有超线程（“thread_siblings”位图只设置了一个位），实际上系统有四个处理器（physical_package_id从0到3），每个处理器有两个核心，而且没有一个核心共享任何缓存。这正是早期Opteron所对应的情况。
 
-What is completely missing in the data provided so far is information about the nature of NUMA on this machine.  Any SMP Opteron machine is a NUMA machine.  For this data we have to look at yet another part of the `sys` file system which exists on NUMA machines, namely in the hierarchy below
-
-
+迄今为止提供的数据完全缺乏有关此机器NUMA性质的信息。任何SMP Opteron机器都是NUMA机器。对于这些数据，我们必须查看“sys”文件系统的另一部分，该部分存在于NUMA机器下面的层次结构中。
 
 ```
     /sys/devices/system/node
 ```
-
-This directory contains a subdirectory for every NUMA node on the system.  In the node-specific directories there are a number of files.  The important files and their content for the Opteron machine described in the previous two tables are shown in Table 5.4.
-
+该目录包含系统上每个NUMA节点的子目录。在节点特定的目录中，有许多文件。对于前两个表中描述的Opteron机器，其重要文件及其内容如表5.4所示。
 
 
 > |         | `cpumap` | `distance`  |
@@ -160,29 +150,21 @@ This directory contains a subdirectory for every NUMA node on the system.  In th
 >
 > **Table 5.4: `sysfs` Information for Opteron Nodes**
 
-This information ties all the rest together; now we have a complete picture of the architecture of the machine.  We already know that the machine has four processors.  Each processor constitutes its own node as can be seen by the bits set in the value in `cpumap` file in the `node*` directories.  The `distance` files in those directories contains a set of values, one for each node, which represent a cost of memory accesses at the respective nodes.  In this example all local memory accesses have the cost 10, all remote access to any other node has the cost 20.  {*This is, by the way, incorrect.  The ACPI information is apparently wrong since, although the processors used have three coherent HyperTransport links, at least one processor must be connected to a Southbridge.  At least one pair of nodes must therefore have a larger distance.*}  This means that, even though the processors are organized as a two-dimensional hypercube (see Figure 5.1), accesses between processors which are not directly connected is not more expensive.  The relative values of the costs should be usable as an estimate of the actual difference of the access times.  The accuracy of all this information is another question.
-
-
-
-
+这些信息将所有其他信息联系在一起；现在我们已经有了机器架构的完整图像。我们已经知道机器有四个处理器。每个处理器构成自己的节点，如在`node*`目录中的`cpumap`文件中的值所示。这些目录中的`distance`文件包含一组值，每个节点一个，表示在各个节点上的内存访问成本。在这个例子中，所有本地内存访问的成本都是10，所有对任何其他节点的远程访问的成本都是20。 {*顺便说一句，这是错误的。ACPI信息显然是错误的，因为虽然使用的处理器具有三个一致的HyperTransport链接，但至少一个处理器必须连接到Southbridge。因此，至少有一对节点必须有更大的距离。*} 这意味着，即使处理器被组织成二维超立方体（见图5.1），不直接连接的处理器之间的访问也不会更加昂贵。这些成本的相对值可用作访问时间实际差异的估计。所有这些信息的准确性是另一个问题。
 
 ### 5.4 Remote Access Costs
 
-The distance is relevant, though.  In [amdccnuma] AMD documents the NUMA cost of a four socket machine.  For write operations the numbers are shown in Figure 5.3.  
+然而，距离是相关的。在[amdccnuma]中，AMD记录了四个插槽机器的NUMA成本。对于写操作，这些数字显示在图5.3中。
 
 > ![img](assets/cpumemory.49.png)
 >
 > **Figure 5.3: Read/Write Performance with Multiple Nodes**
 
-Writes are slower than reads, this is no surprise.  The interesting parts are the costs of the 1- and 2-hop cases.  The two 1-hop cases actually have slightly different costs.  See [amdccnuma] for the details.  The fact we need to remember from this chart is that 2-hop reads and writes are 30% and 49% (respectively) slower than 0-hop reads.  2-hop writes are 32% slower than 0-hop writes, and 17% slower than 1-hop writes. The relative position of processor and memory nodes can make a big difference.  The next generation of processors from AMD will feature four coherent HyperTransport links per processor.  In that case a four socket machine would have diameter of one.  With eight sockets the same problem returns, with a vengeance, since the diameter of a hypercube with eight nodes is three.
+写比读慢，这并不令人意外。有趣的部分是1和2跳的成本。两个1跳的情况实际上具有略微不同的成本。有关详细信息，请参见[amdccnuma]。我们需要从这张图表中记住的事实是，2跳读和写分别比0跳读慢30％和49％。2跳写比0跳写慢32％，比1跳写慢17％。处理器和内存节点的相对位置可能会产生很大的差异。来自AMD的下一代处理器将每个处理器配备四个一致的HyperTransport链接。在这种情况下，四个插槽机器的直径为1。具有八个插槽的情况会再次出现，因为具有八个节点的超立方体的直径为三。
 
+所有这些信息都是可用的，但使用起来很麻烦。在第6.5节中，我们将看到一个界面，它可以帮助更容易地访问和使用这些信息。
 
-
-All this information is available but it is cumbersome to use.  In Section 6.5 we will see an interface which helps accessing and using this information easier.
-
-The last piece of information the system provides is in the status of a process itself.  It is possible to determine how the memory-mapped files, Copy-On-Write (COW) pages and anonymous memory are distributed over the nodes in the  system. {*Copy-On-Write is a method often used in OS implementations when a memory page has one user at first and then has to be copied to allow independent users.  In many situations the copying is unnecessary, at all or at first, in which case it makes sense to only copy when either user modifies the memory.  The operating system intercepts the write operation, duplicates the memory page, and then allows the write instruction to proceed.*}  Each process has a file `/proc/**PID**/numa_maps`, where `**PID**` is the ID of the process, as shown in Figure 5.2.  
-
-
+系统提供的最后一条信息是进程本身的状态。可以确定内存映射文件、写时复制(COW)页面和匿名内存在系统中的节点上如何分布。{写时复制是操作系统实现中经常使用的一种方法，当一个内存页一开始只有一个用户时，然后必须复制以允许独立的用户。在许多情况下，复制是不必要的，或者起初是不必要的，在这种情况下，只有当任一用户修改内存时才有意义。操作系统拦截写操作，复制内存页，然后允许写指令继续进行。}每个进程都有一个文件/proc/**PID**/numa_maps，其中**PID**是进程的ID，如图5.2所示。
 
 > ```
 > 00400000 default file=/bin/cat mapped=3 N3=3
@@ -204,14 +186,13 @@ The last piece of information the system provides is in the status of a process 
 >
 > **Figure 5.2: Content of `/proc/\*PID\*/numa_maps`**
 
-The important information in the file is the values for `N0` to `N3`, which indicate the number of pages allocated for the memory area on nodes 0 to 3.  It is a good guess that the program was executed on a core on node 3.  The program itself and the dirtied pages are allocated on that node.  Read-only mappings, such as the first mapping for `ld-2.4.so` and `libc-2.4.so` as well as the shared file `locale-archive` are allocated on other nodes.
+文件中重要的信息是`N0`到`N3`的值，它们表示在节点0到3上分配的内存区域的页面数量。很有可能该程序在节点3上的核心上执行，程序本身和脏页面都分配在该节点上。只读映射，如`ld-2.4.so`和`libc-2.4.so`的第一个映射以及共享文件`locale-archive`，则分配在其他节点上。
 
-As we have seen in Figure 5.3 the read performance across nodes falls by 9% and 30% respectively for 1- and 2-hop reads. For execution, such reads are needed and, if the L2 cache is missed, each cache line incurs these additional costs.  All the costs measured for large workloads beyond the size of the cache would have to be increased by 9%/30% if the memory is remote to the processor.
+如我们在图5.3中所见，对于1和2跳读取，跨节点的读取性能分别下降了9%和30%。对于执行，这些读取是必需的，如果L2缓存未命中，则每个缓存行会产生这些额外的成本。如果内存远离处理器，则所有大型工作负载的成本都将增加9％/30％。
 
 > ![img](assets/cpumemory.66.png)
 >
 > **Figure 5.4: Operating on Remote Memory**
+为了看到现实世界中的影响，我们可以像3.5.1节那样测量带宽，但这次是在内存位于远程节点，距离一个跳跃的情况下进行的。将此测试的结果与使用本地内存的数据进行比较，可以在图5.4中看到。这些数字在两个方向上都有一些很大的峰值，这是测量多线程代码的问题，可以忽略不计。这个图表中的重要信息是读操作总是比本地内存慢20%。这比图5.3中的9%要慢得多，这很可能不是连续读写操作的数字，可能指的是旧的处理器版本。只有AMD知道。
 
-To see the effects in the real world we can measure the bandwidth as in Section 3.5.1 but this time with the memory being on a remote node, one hop away.  The result of this test when compared with the data for using local memory can be seen in Figure 5.4.  The numbers have a few big spikes in both directions which are the result of a problem of measuring multi-threaded code and can be ignored.  The important information in this graph is that read operations are always 20% slower.  This is significantly slower than the 9% in Figure 5.3, which is, most likely, not a number for uninterrupted read/write operations and might refer to older processor revisions.  Only AMD knows.
-
-For working set sizes which fit into the caches, the performance of write and copy operations is also 20% slower.  For working sets exceeding the size of the caches, the write performance is not measurably slower than the operation on the local node.  The speed of the interconnect is fast enough to keep up with the memory.  The dominating factor is the time spent waiting on the main memory.
+对于适合缓存的工作集大小，写入和复制操作的性能也会慢20%。对于超过缓存大小的工作集，写入性能与本地节点上的操作相比没有明显变慢。互联速度足够快，可以跟上内存速度。主导因素是等待主内存的时间。
